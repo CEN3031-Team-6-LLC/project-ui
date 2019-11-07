@@ -13,6 +13,9 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 const GeneralFire = props => {
   const classes = useStyles();
+  const [state, setState] = React.useState({
+    stability: "a"
+  });
 
   return (
     <MaterialUI.Paper {...props} square className={classes.generalFire}>
@@ -33,6 +36,10 @@ const GeneralFire = props => {
           { value: "c", label: "C" },
           { value: "d", label: "D" }
         ]}
+        onChange={e => {
+          setState({ ...state, stability: e.target.value });
+        }}
+        value={state.stability}
       />
     </MaterialUI.Paper>
   );

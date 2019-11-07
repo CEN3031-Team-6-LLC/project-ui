@@ -13,7 +13,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const RadioButtons = props => {
-  const { title, options } = props;
+  const { title, options, onChange, value } = props;
   const classes = useStyles();
   return (
     <MaterialUI.FormControl
@@ -25,8 +25,8 @@ const RadioButtons = props => {
       <MaterialUI.RadioGroup
         aria-label="gender"
         name="gender1"
-        value={options[0].value}
-        onChange={() => {}}
+        value={value}
+        onChange={onChange}
       >
         {options.map((option, i) => {
           return (
