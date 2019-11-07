@@ -3,6 +3,7 @@ import "./App.css";
 import * as MaterialUI from "@material-ui/core";
 import LeftControls from "./LeftControls";
 import clsx from "clsx";
+import MainPanel from "./MainPanel/MainPanel";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -14,6 +15,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
       flex: 1
     },
     mainPanel: {
+      padding: 50,
       flex: 3
     }
   };
@@ -32,7 +34,7 @@ const App = props => {
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
         <LeftControls className={classes.leftControls} />
-        <div className={classes.mainPanel} />
+        <MainPanel className={classes.mainPanel} />
       </div>
     </MaterialUI.ThemeProvider>
   );
