@@ -1,7 +1,8 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import clsx from "clsx";
-import GeneralPlume from "./GeneralPlume";
+import GeneralPlume from "./GeneralPlume/GeneralPlume";
+import GeneralFire from "./GeneralFire/GeneralFire";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -15,7 +16,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const LeftControls = props => {
   const { className } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -40,9 +41,11 @@ const LeftControls = props => {
         index={0}
         hidden={value === 0 ? false : true}
       />
-      <div value={value} index={1} hidden={value === 1 ? false : true}>
-        General Fire Fields Go Here
-      </div>
+      <GeneralFire
+        value={value}
+        index={1}
+        hidden={value === 1 ? false : true}
+      />
     </MaterialUI.Paper>
   );
 };
