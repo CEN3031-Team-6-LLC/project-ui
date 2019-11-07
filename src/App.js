@@ -1,62 +1,40 @@
 import React from "react";
 import "./App.css";
-import * as ChartJS from "react-chartjs-2";
+import * as MaterialUI from "@material-ui/core";
+import LeftControls from "./LeftControls";
+import clsx from "clsx";
 
-const randomScalingFactor = () => {
-  return Math.random() * 100;
-};
-
-var horizontalBarChartData = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      label: "Dataset 1",
-      backgroundColor: "red",
-      borderColor: "lightcoral",
-      borderWidth: 1,
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ]
+const useStyles = MaterialUI.makeStyles(theme => {
+  return {
+    app: {
+      display: "flex",
+      height: "100%"
     },
-    {
-      label: "Dataset 2",
-      backgroundColor: "blue",
-      borderColor: "lightgrey",
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ]
+    leftControls: {
+      flex: 1
+    },
+    mainPanel: {
+      flex: 3
     }
-  ]
-};
+  };
+});
+
+const theme = MaterialUI.createMuiTheme({
+  palette: {
+    primary: MaterialUI.colors.grey,
+    secondary: MaterialUI.colors.deepPurple
+  }
+});
 
 const App = props => {
-  const dummyRef = React.useRef(null);
-
-  React.useEffect(() => {
-    console.log(dummyRef.current.chartInstance.data);
-  });
+  const classes = useStyles();
   return (
-    <div className="App">
-      <ChartJS.Line
-        ref={dummyRef}
-        data={horizontalBarChartData}
-        width={100}
-        height={500}
-        options={{ maintainAspectRatio: false }}
-      />
-    </div>
+    <MaterialUI.ThemeProvider theme={theme}>
+      <div className={clsx("App", classes.app)}>
+        <LeftControls className={classes.leftControls} />
+        <div className={classes.mainPanel} />
+      </div>
+    </MaterialUI.ThemeProvider>
   );
 };
 
