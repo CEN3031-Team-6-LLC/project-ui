@@ -12,8 +12,13 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralFire = props => {
+  const { onClick } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
+    sourceAmount: 0,
+    fireCloudTop: 0,
+    windSpeed: 0,
+    receptorHeights: 0,
     stability: "a"
   });
 
@@ -24,10 +29,34 @@ const GeneralFire = props => {
         unit="Ci"
         unitTogglelable={true}
         unit2="Bq"
+        onChange={e => {
+          setState({ ...state, sourceAmount: window.parseInt(e.target.value) });
+        }}
       />
-      <CustomWidgets.InputField placeholder="Fire Cloud Top" unit="m" />
-      <CustomWidgets.InputField placeholder="Wind Speed" unit="m/s" />
-      <CustomWidgets.InputField placeholder="Receptor Heights" unit="m" />
+      <CustomWidgets.InputField
+        placeholder="Fire Cloud Top"
+        unit="m"
+        onChange={e => {
+          setState({ ...state, fireCloudTop: window.parseInt(e.target.value) });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Wind Speed"
+        unit="m/s"
+        onChange={e => {
+          setState({ ...state, windSpeed: window.parseInt(e.target.value) });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Receptor Heights"
+        unit="m"
+        onChange={e => {
+          setState({
+            ...state,
+            receptorHeights: window.parseInt(e.target.value)
+          });
+        }}
+      />
       <CustomWidgets.RadioButtons
         title="Stability"
         options={[
@@ -41,6 +70,15 @@ const GeneralFire = props => {
         }}
         value={state.stability}
       />
+      <MaterialUI.Button
+        variant="contained"
+        onClick={() => {
+          console.log("da", state);
+          onClick(state);
+        }}
+      >
+        Show Graph
+      </MaterialUI.Button>
     </MaterialUI.Paper>
   );
 };

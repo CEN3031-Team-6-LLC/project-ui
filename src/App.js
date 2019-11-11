@@ -30,11 +30,20 @@ const theme = MaterialUI.createMuiTheme({
 
 const App = props => {
   const classes = useStyles();
+  const [state, setState] = React.useState({
+    generalFire: null
+  });
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
-        <LeftControls className={classes.leftControls} />
-        <MainPanel className={classes.mainPanel} />
+        <LeftControls
+          className={classes.leftControls}
+          onClick={fireReq => {
+            console.log("Fire Reg", fireReq);
+            setState({ ...state, generalFire: fireReq });
+          }}
+        />
+        <MainPanel className={classes.mainPanel} fireReq={state.generalFire} />
       </div>
     </MaterialUI.ThemeProvider>
   );

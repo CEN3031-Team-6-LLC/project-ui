@@ -1,47 +1,51 @@
 import React from "react";
 import * as ChartJS from "react-chartjs-2";
 
-const randomScalingFactor = () => {
-  return Math.random() * 100;
-};
-
 var horizontalBarChartData = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
-      label: "Dataset 1",
+      label: "Hot Spot Awesome Graph",
       backgroundColor: "lightcoral",
       borderColor: "red",
       borderWidth: 1,
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ]
-    },
-    {
-      label: "Dataset 2",
-      backgroundColor: "lightblue",
-      borderColor: "blue",
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ]
+      data: []
     }
   ]
 };
 
 const MainPanel = props => {
+  const { fireReq } = props;
   const dummyRef = React.useRef(null);
+  console.log("Fetching", fireReq);
+
+  const [state, setState] = React.useState(horizontalBarChartData);
+
+  React.useEffect(() => {
+    fetch("http://localhost:8080/api/calculate/fire", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(fireReq)
+    })
+      .then(resp => resp.json())
+      .then(result => {
+        let newData = [];
+        result.forEach(item => {
+          if (item.x !== null && item.y !== null && item.x % 1000 === 0) {
+            newData.push(item);
+          }
+        });
+        console.log("New Data", newData);
+        state.datasets[0].data = newData;
+        setState({ ...state });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    return () => {};
+  }, [fireReq, state]);
 
   return (
     <div {...props}>

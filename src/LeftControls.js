@@ -14,7 +14,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const LeftControls = props => {
-  const { className } = props;
+  const { className, onClick } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -45,6 +45,10 @@ const LeftControls = props => {
         value={value}
         index={1}
         hidden={value === 1 ? false : true}
+        onClick={state => {
+          console.log("Clicked", state);
+          onClick(state);
+        }}
       />
     </MaterialUI.Paper>
   );
