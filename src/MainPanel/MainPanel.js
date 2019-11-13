@@ -21,13 +21,20 @@ const MainPanel = props => {
   const [state, setState] = React.useState(horizontalBarChartData);
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/api/calculate/fire", {
+    fetch("https://quiet-atoll-96617.herokuapp.com/api/calculate/fire", {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify(fireReq)
+      body: JSON.stringify({
+        sourceAmount: 23,
+        releaseHeight: 35,
+        windSpeed: 42,
+        receptorHeights: 50,
+        stability: "a"
+      })
     })
       .then(resp => resp.json())
       .then(result => {
@@ -45,7 +52,7 @@ const MainPanel = props => {
         console.log(err);
       });
     return () => {};
-  }, [fireReq, state]);
+  }, [fireReq]);
 
   return (
     <div {...props}>
