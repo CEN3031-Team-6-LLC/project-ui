@@ -21,12 +21,12 @@ const MainPanel = props => {
   const [state, setState] = React.useState(horizontalBarChartData);
 
   React.useEffect(() => {
-    fetch("https://quiet-atoll-96617.herokuapp.com/api/calculate/fire", {
+    fetch("https://secure-ravine-69330.herokuapp.com/api/calculate/fire", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "https://sleepy-garden-43138.herokuapp.com"
       },
       body: JSON.stringify({
         sourceAmount: 23,
