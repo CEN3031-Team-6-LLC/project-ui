@@ -50,7 +50,24 @@ const App = props => {
         <LeftControls
           className={classes.leftControls}
           onFireShowGraphClick={fireReq => {
-            console.log("Fire clicked", fireReq);
+            fetch(
+              "http://quiet-atoll-96617.herokuapp.com//api/calculations/fire",
+              {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Request-Method": "POST"
+                },
+                body: JSON.stringify({
+                  sourceAmount: 23,
+                  fireCloudTop: 35,
+                  windSpeed: 42,
+                  receptorHeights: 50,
+                  stability: "a"
+                }) //
+              }
+            ).then(resp => console.log(resp));
           }}
         />
         <MainPanel
