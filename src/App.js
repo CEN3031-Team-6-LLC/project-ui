@@ -28,22 +28,35 @@ const theme = MaterialUI.createMuiTheme({
   }
 });
 
+// var horizontalBarChartData = {
+//   datasets: [
+//     {
+//       label: "Hot Spot Awesome Graph",
+//       backgroundColor: "lightcoral",
+//       borderColor: "red",
+//       borderWidth: 1,
+//       data: []
+//     }
+//   ]
+// };
+
 const App = props => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    generalFire: null
-  });
+
+  const [fireChartData, setFireChartData] = React.useState([]);
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
         <LeftControls
           className={classes.leftControls}
-          onClick={fireReq => {
-            console.log("Fire Reg", fireReq);
-            setState({ ...state, generalFire: fireReq });
+          onFireShowGraphClick={fireReq => {
+            console.log("Fire clicked", fireReq);
           }}
         />
-        <MainPanel className={classes.mainPanel} fireReq={state.generalFire} />
+        <MainPanel
+          className={classes.mainPanel}
+          fireChartData={fireChartData}
+        />
       </div>
     </MaterialUI.ThemeProvider>
   );

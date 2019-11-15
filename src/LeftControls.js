@@ -14,7 +14,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const LeftControls = props => {
-  const { className, onClick } = props;
+  const { className, onFireShowGraphClick } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -24,7 +24,7 @@ const LeftControls = props => {
 
   return (
     <MaterialUI.Paper className={clsx(className, classes.controls)} square>
-      <MaterialUI.AppBar position="static" color="primary">
+      <div>
         <MaterialUI.Tabs
           value={value}
           indicatorColor="secondary"
@@ -32,24 +32,21 @@ const LeftControls = props => {
           onChange={handleChange}
           aria-label="disabled tabs example"
         >
-          <MaterialUI.Tab label="General Plume" />
           <MaterialUI.Tab label="General Fire" />
+          <MaterialUI.Tab label="General Plume" />
         </MaterialUI.Tabs>
-      </MaterialUI.AppBar>
-      <GeneralPlume
-        value={value}
-        index={0}
-        hidden={value === 0 ? false : true}
-      />
-      <GeneralFire
-        value={value}
-        index={1}
-        hidden={value === 1 ? false : true}
-        onClick={state => {
-          console.log("Clicked", state);
-          onClick(state);
-        }}
-      />
+        <GeneralFire
+          value={value}
+          index={0}
+          hidden={value === 0 ? false : true}
+          onFireClick={onFireShowGraphClick}
+        />
+        <GeneralPlume
+          value={value}
+          index={1}
+          hidden={value === 1 ? false : true}
+        />
+      </div>
     </MaterialUI.Paper>
   );
 };

@@ -5,14 +5,15 @@ import * as CustomWidgets from "../CustomWidgets";
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     generalFire: {
-      height: "100vh",
-      padding: 20
+      height: "100%",
+      padding: 20,
+      overflowY: "scroll"
     }
   };
 });
 
 const GeneralFire = props => {
-  const { onClick } = props;
+  const { onFireClick } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
     sourceAmount: 0,
@@ -23,7 +24,7 @@ const GeneralFire = props => {
   });
 
   return (
-    <MaterialUI.Paper {...props} square className={classes.generalFire}>
+    <div {...props} className={classes.generalFire}>
       <CustomWidgets.InputField
         placeholder="Source Amount"
         unit="Ci"
@@ -70,16 +71,10 @@ const GeneralFire = props => {
         }}
         value={state.stability}
       />
-      <MaterialUI.Button
-        variant="contained"
-        onClick={() => {
-          console.log("da", state);
-          onClick(state);
-        }}
-      >
+      <MaterialUI.Button variant="contained" onClick={() => onFireClick(state)}>
         Show Graph
       </MaterialUI.Button>
-    </MaterialUI.Paper>
+    </div>
   );
 };
 
