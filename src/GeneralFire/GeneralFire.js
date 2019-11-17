@@ -19,7 +19,8 @@ const GeneralFire = props => {
     sourceAmount: 0,
     fireCloudTop: 0,
     windSpeed: 0,
-    receptorHeights: 0,
+    receptorHeight: 0,
+    fireRadius: 0,
     stability: "a"
   });
 
@@ -49,12 +50,22 @@ const GeneralFire = props => {
         }}
       />
       <CustomWidgets.InputField
-        placeholder="Receptor Heights"
+        placeholder="Receptor Height"
         unit="m"
         onChange={e => {
           setState({
             ...state,
-            receptorHeights: window.parseInt(e.target.value)
+            receptorHeight: window.parseInt(e.target.value)
+          });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Fire Radius"
+        unit="m"
+        onChange={e => {
+          setState({
+            ...state,
+            fireRadius: window.parseInt(e.target.value)
           });
         }}
       />
