@@ -31,7 +31,9 @@ const createData = dataArr => {
   let result = [];
   let startBase = 10;
   dataArr.forEach((data, i) => {
-    if (data.x && data.y && i % startBase === 0) {
+    if (data.distance && data.concentration && i % startBase === 0) {
+      data.x = data.distance;
+      data.y = data.concentration;
       result.push(data);
       startBase *= 10;
     }
@@ -53,21 +55,54 @@ const createData = dataArr => {
 const App = props => {
   const classes = useStyles();
 
-  const [fireChartData, setFireChartData] = React.useState([]);
+  const [state, setState] = React.useState({
+    previousFireData: null,
+    previousPlumeData: null,
+    chartData: {}
+  });
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
         <LeftControls
           className={classes.leftControls}
+          onSwitchTabs={tabIndex => {
+            switch (tabIndex) {
+              case 0: {
+                // fire graph tab
+                setState({...state, chartData: {}});
+                if (state.previousFireData)
+                  setState({...state, chartData: createData(state.previousFireData)});
+                return;
+              }
+              case 1: {
+                // plume graph tab
+                setState({...state, chartData: {}});
+                if (state.previousPlumeData)
+                  setState({...state, chartData: createData(state.previousPlumeData)});
+                return;
+              }
+              default: {
+                // error
+                throw new Error("No such tab exists!");
+              }
+            }
+          }}
           onFireShowGraphClick={fireReq => {
             post({ body: fireReq, type: "fire" }).then(data => {
-              setFireChartData(createData(data));
+              // data = createData(data);
+              setState({...state, previousFireData: data, chartData: createData(data)});
+            });
+          }}
+          onPlumeShowGraphClick={plumeReq => {
+            post({ body: plumeReq, type: "plume" }).then(data => {
+              // data = createData(data);
+              setState({...state, previousPlumeData: data, chartData: createData(data)});
             });
           }}
         />
         <MainPanel
           className={classes.mainPanel}
-          fireChartData={fireChartData}
+          chartData={state.chartData}
         />
       </div>
     </MaterialUI.ThemeProvider>

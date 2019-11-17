@@ -11,12 +11,12 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const MainPanel = props => {
-  const { fireChartData } = props;
+  const { chartData } = props;
   const classes = useStyles();
   return (
     <div className={classes.mainPanel} {...props}>
       <ChartJS.Line
-        data={fireChartData}
+        data={chartData}
         width={100}
         height={500}
         options={{ maintainAspectRatio: false }}

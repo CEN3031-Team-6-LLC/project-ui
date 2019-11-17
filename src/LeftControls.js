@@ -14,11 +14,12 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const LeftControls = props => {
-  const { className, onFireShowGraphClick } = props;
+  const { className, onFireShowGraphClick, onPlumeShowGraphClick, onSwitchTabs } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    onSwitchTabs(newValue);
     setValue(newValue);
   };
 
@@ -45,6 +46,7 @@ const LeftControls = props => {
           value={value}
           index={1}
           hidden={value === 1 ? false : true}
+          onPlumeClick={onPlumeShowGraphClick}
         />
       </div>
     </MaterialUI.Paper>
