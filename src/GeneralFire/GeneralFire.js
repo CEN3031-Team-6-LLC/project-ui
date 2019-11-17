@@ -16,7 +16,11 @@ const GeneralFire = props => {
   const { onFireClick } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
-    sourceAmount: 0,
+    sourceAmount: {
+      amount: 0,
+      error: false,
+      errorMessage: "Error please enter a value greater than 0"
+    },
     fireCloudTop: 0,
     windSpeed: 0,
     receptorHeight: 0,
@@ -31,8 +35,17 @@ const GeneralFire = props => {
         unit="Ci"
         unitTogglelable={true}
         unit2="Bq"
+        title="Source Amount"
+        type="number"
+        data={state.sourceAmount}
         onChange={e => {
-          setState({ ...state, sourceAmount: window.parseInt(e.target.value) });
+          const value = window.parseInt(e.target.value);
+          if (value >= 0) {
+            state.sourceAmount.amount = value;
+          } else {
+            state.sourceAmount.error = true;
+          }
+          setState({ ...state });
         }}
       />
       <CustomWidgets.InputField

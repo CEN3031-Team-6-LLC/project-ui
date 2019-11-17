@@ -15,7 +15,16 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const InputField = props => {
-  const { placeholder, unit, unitTogglelable, unit2, onChange } = props;
+  const {
+    placeholder,
+    unit,
+    unitTogglelable,
+    unit2,
+    onChange,
+    data,
+    title,
+    type
+  } = props;
   const [state, setState] = React.useState(true);
   const classes = useStyles();
 
@@ -29,6 +38,10 @@ const InputField = props => {
       className={classes.textField}
       placeholder={placeholder}
       onChange={onChange}
+      label={title}
+      type={type}
+      error={data ? data.error : false}
+      helperText={data && data.error ? data.errorMessage : ""}
       InputProps={{
         startAdornment: (
           <MaterialUI.InputAdornment
