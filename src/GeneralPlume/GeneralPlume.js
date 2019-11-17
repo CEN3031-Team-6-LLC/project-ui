@@ -12,7 +12,15 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralPlume = props => {
+  const { onPlumeClick } = props;
   const classes = useStyles();
+  const [state, setState] = React.useState({
+    sourceAmount: 0,
+    releaseHeight: 0,
+    windSpeed: 0,
+    receptorHeight: 0,
+    stability: "a"
+  });
 
   return (
     <div {...props} className={classes.generalPlume}>
@@ -21,10 +29,50 @@ const GeneralPlume = props => {
         unit="Ci"
         unitTogglelable={true}
         unit2="Bq"
+        onChange={e => {
+          setState({ ...state, sourceAmount: window.parseInt(e.target.value) });
+        }}
       />
-      <CustomWidgets.InputField placeholder="Release Height" unit="m" />
-      <CustomWidgets.InputField placeholder="Wind Speed" unit="m/s" />
-      <CustomWidgets.InputField placeholder="Receptor Heights" unit="m" />
+      <CustomWidgets.InputField
+        placeholder="Release Height"
+        unit="m"
+        onChange={e => {
+          setState({ ...state, fireCloudTop: window.parseInt(e.target.value) });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Wind Speed"
+        unit="m/s"
+        onChange={e => {
+          setState({ ...state, windSpeed: window.parseInt(e.target.value) });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Receptor Height"
+        unit="m"
+        onChange={e => {
+          setState({
+            ...state,
+            receptorHeight: window.parseInt(e.target.value)
+          });
+        }}
+      />
+      <CustomWidgets.RadioButtons
+        title="Stability"
+        options={[
+          { value: "a", label: "A" },
+          { value: "b", label: "B" },
+          { value: "c", label: "C" },
+          { value: "d", label: "D" }
+        ]}
+        onChange={e => {
+          setState({ ...state, stability: e.target.value });
+        }}
+        value={state.stability}
+      />
+      <MaterialUI.Button variant="contained" onClick={() => onPlumeClick(state)}>
+        Show Graph
+      </MaterialUI.Button>
     </div>
   );
 };
