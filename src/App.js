@@ -29,16 +29,13 @@ const theme = MaterialUI.createMuiTheme({
 });
 const createData = dataArr => {
   let result = [];
-  let startBase = 10;
   dataArr.forEach((data, i) => {
-    if (data.distance && data.concentration && i % startBase === 0) {
+    if (data.distance && data.concentration) {
       data.x = data.distance;
       data.y = data.concentration;
       result.push(data);
-      startBase *= 10;
     }
   });
-  console.log("REsulte", result);
   return {
     datasets: [
       {
@@ -58,7 +55,8 @@ const App = props => {
   const [state, setState] = React.useState({
     previousFireData: null,
     previousPlumeData: null,
-    chartData: {}
+    chartData: {},
+    tabIndex: "fire"
   });
   return (
     <MaterialUI.ThemeProvider theme={theme}>
@@ -69,16 +67,24 @@ const App = props => {
             switch (tabIndex) {
               case 0: {
                 // fire graph tab
-                setState({...state, chartData: {}});
+                setState({ ...state, chartData: {}, tabIndex: "fire" });
                 if (state.previousFireData)
-                  setState({...state, chartData: createData(state.previousFireData)});
+                  setState({
+                    ...state,
+                    chartData: createData(state.previousFireData),
+                    tabIndex: "fire"
+                  });
                 return;
               }
               case 1: {
                 // plume graph tab
-                setState({...state, chartData: {}});
+                setState({ ...state, chartData: {}, tabIndex: "plume" });
                 if (state.previousPlumeData)
-                  setState({...state, chartData: createData(state.previousPlumeData)});
+                  setState({
+                    ...state,
+                    chartData: createData(state.previousPlumeData),
+                    tabIndex: "plume"
+                  });
                 return;
               }
               default: {
@@ -90,18 +96,31 @@ const App = props => {
           onFireShowGraphClick={fireReq => {
             post({ body: fireReq, type: "fire" }).then(data => {
               // data = createData(data);
-              setState({...state, previousFireData: data, chartData: createData(data)});
+              setState({
+                ...state,
+                previousFireData: data,
+                chartData: createData(data)
+              });
             });
           }}
           onPlumeShowGraphClick={plumeReq => {
             post({ body: plumeReq, type: "plume" }).then(data => {
               // data = createData(data);
-              setState({...state, previousPlumeData: data, chartData: createData(data)});
+              setState({
+                ...state,
+                previousPlumeData: data,
+                chartData: createData(data)
+              });
             });
           }}
         />
         <MainPanel
           className={classes.mainPanel}
+          data={
+            state.tabIndex === "fire"
+              ? state.previousFireData
+              : state.previousPlumeData
+          }
           chartData={state.chartData}
         />
       </div>
