@@ -1,10 +1,15 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
+import "./InputField.css";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     textField: {
-      marginBottom: 20
+      "&>label": {
+        background: "white"
+      },
+      marginBottom: 20,
+      background: "white"
     },
     adornment: {
       "&:hover": {
@@ -53,10 +58,6 @@ const InputField = props => {
           </MaterialUI.InputAdornment>
         )
       }}
-
-
-
-
       variant="outlined"
     />
   );

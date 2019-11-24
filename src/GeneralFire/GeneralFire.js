@@ -31,7 +31,6 @@ const GeneralFire = props => {
       error: false,
       errorMessage: "Error: Windspeed must be between 0.1 and 50 m/s"
     },
-
     receptorHeight: {
       amount: 0,
       error: false,

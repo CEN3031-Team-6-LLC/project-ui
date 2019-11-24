@@ -114,7 +114,7 @@ const App = props => {
           onPlumeShowGraphClick={plumeReq => {
             console.log("The plume req", plumeReq);
             let req = {};
-            req.fireleaseHeightreCloudTop = plumeReq.releaseHeight.amount;
+            req.releaseHeight = plumeReq.releaseHeight.amount;
             req.receptorHeight = plumeReq.receptorHeight.amount;
             req.sourceAmount = plumeReq.sourceAmount.amount;
             req.stability = plumeReq.stability;
