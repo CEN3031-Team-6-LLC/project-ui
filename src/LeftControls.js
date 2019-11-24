@@ -8,13 +8,19 @@ const useStyles = MaterialUI.makeStyles(theme => {
   return {
     controls: {
       height: "100%",
-      width: "100%"
+      width: "100%",
+      overflowY: "scroll"
     }
   };
 });
 
 const LeftControls = props => {
-  const { className, onFireShowGraphClick, onPlumeShowGraphClick, onSwitchTabs } = props;
+  const {
+    className,
+    onFireShowGraphClick,
+    onPlumeShowGraphClick,
+    onSwitchTabs
+  } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 

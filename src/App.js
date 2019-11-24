@@ -94,7 +94,15 @@ const App = props => {
             }
           }}
           onFireShowGraphClick={fireReq => {
-            post({ body: fireReq, type: "fire" }).then(data => {
+            let req = {};
+            req.fireCloudTop = fireReq.fireCloudTop.amount;
+            req.fireRadius = fireReq.fireRadius.amount;
+            req.receptorHeight = fireReq.receptorHeight.amount;
+            req.sourceAmount = fireReq.sourceAmount.amount;
+            req.stability = fireReq.stability;
+            req.windSpeed = fireReq.windSpeed.amount;
+
+            post({ body: req, type: "fire" }).then(data => {
               // data = createData(data);
               setState({
                 ...state,
@@ -104,7 +112,15 @@ const App = props => {
             });
           }}
           onPlumeShowGraphClick={plumeReq => {
-            post({ body: plumeReq, type: "plume" }).then(data => {
+            console.log("The plume req", plumeReq);
+            let req = {};
+            req.fireleaseHeightreCloudTop = plumeReq.releaseHeight.amount;
+            req.receptorHeight = plumeReq.receptorHeight.amount;
+            req.sourceAmount = plumeReq.sourceAmount.amount;
+            req.stability = plumeReq.stability;
+            req.windSpeed = plumeReq.windSpeed.amount;
+
+            post({ body: req, type: "plume" }).then(data => {
               // data = createData(data);
               setState({
                 ...state,
