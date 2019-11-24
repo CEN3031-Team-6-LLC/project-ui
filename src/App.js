@@ -61,84 +61,86 @@ const App = props => {
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
-        <LeftControls
-          className={classes.leftControls}
-          onSwitchTabs={tabIndex => {
-            switch (tabIndex) {
-              case 0: {
-                // fire graph tab
-                setState({ ...state, chartData: {}, tabIndex: "fire" });
-                if (state.previousFireData)
-                  setState({
-                    ...state,
-                    chartData: createData(state.previousFireData),
-                    tabIndex: "fire"
-                  });
-                return;
+        <div className={classes.leftControls}>
+          <LeftControls
+            onSwitchTabs={tabIndex => {
+              switch (tabIndex) {
+                case 0: {
+                  // fire graph tab
+                  setState({ ...state, chartData: {}, tabIndex: "fire" });
+                  if (state.previousFireData)
+                    setState({
+                      ...state,
+                      chartData: createData(state.previousFireData),
+                      tabIndex: "fire"
+                    });
+                  return;
+                }
+                case 1: {
+                  // plume graph tab
+                  setState({ ...state, chartData: {}, tabIndex: "plume" });
+                  if (state.previousPlumeData)
+                    setState({
+                      ...state,
+                      chartData: createData(state.previousPlumeData),
+                      tabIndex: "plume"
+                    });
+                  return;
+                }
+                default: {
+                  // error
+                  throw new Error("No such tab exists!");
+                }
               }
-              case 1: {
-                // plume graph tab
-                setState({ ...state, chartData: {}, tabIndex: "plume" });
-                if (state.previousPlumeData)
-                  setState({
-                    ...state,
-                    chartData: createData(state.previousPlumeData),
-                    tabIndex: "plume"
-                  });
-                return;
-              }
-              default: {
-                // error
-                throw new Error("No such tab exists!");
-              }
+            }}
+            onFireShowGraphClick={fireReq => {
+              let req = {};
+              req.fireCloudTop = fireReq.fireCloudTop.amount;
+              req.fireRadius = fireReq.fireRadius.amount;
+              req.receptorHeight = fireReq.receptorHeight.amount;
+              req.sourceAmount = fireReq.sourceAmount.amount;
+              req.stability = fireReq.stability;
+              req.windSpeed = fireReq.windSpeed.amount;
+
+              post({ body: req, type: "fire" }).then(data => {
+                // data = createData(data);
+                setState({
+                  ...state,
+                  previousFireData: data,
+                  chartData: createData(data)
+                });
+              });
+            }}
+            onPlumeShowGraphClick={plumeReq => {
+              console.log("The plume req", plumeReq);
+              let req = {};
+              req.releaseHeight = plumeReq.releaseHeight.amount;
+              req.receptorHeight = plumeReq.receptorHeight.amount;
+              req.sourceAmount = plumeReq.sourceAmount.amount;
+              req.stability = plumeReq.stability;
+              req.windSpeed = plumeReq.windSpeed.amount;
+
+              post({ body: req, type: "plume" }).then(data => {
+                // data = createData(data);
+                setState({
+                  ...state,
+                  previousPlumeData: data,
+                  chartData: createData(data)
+                });
+              });
+            }}
+          />
+        </div>
+        <div className={classes.mainPanel}>
+          <MainPanel
+            data={
+              state.tabIndex === "fire"
+                ? state.previousFireData
+                : state.previousPlumeData
             }
-          }}
-          onFireShowGraphClick={fireReq => {
-            let req = {};
-            req.fireCloudTop = fireReq.fireCloudTop.amount;
-            req.fireRadius = fireReq.fireRadius.amount;
-            req.receptorHeight = fireReq.receptorHeight.amount;
-            req.sourceAmount = fireReq.sourceAmount.amount;
-            req.stability = fireReq.stability;
-            req.windSpeed = fireReq.windSpeed.amount;
-
-            post({ body: req, type: "fire" }).then(data => {
-              // data = createData(data);
-              setState({
-                ...state,
-                previousFireData: data,
-                chartData: createData(data)
-              });
-            });
-          }}
-          onPlumeShowGraphClick={plumeReq => {
-            console.log("The plume req", plumeReq);
-            let req = {};
-            req.releaseHeight = plumeReq.releaseHeight.amount;
-            req.receptorHeight = plumeReq.receptorHeight.amount;
-            req.sourceAmount = plumeReq.sourceAmount.amount;
-            req.stability = plumeReq.stability;
-            req.windSpeed = plumeReq.windSpeed.amount;
-
-            post({ body: req, type: "plume" }).then(data => {
-              // data = createData(data);
-              setState({
-                ...state,
-                previousPlumeData: data,
-                chartData: createData(data)
-              });
-            });
-          }}
-        />
-        <MainPanel
-          className={classes.mainPanel}
-          data={
-            state.tabIndex === "fire"
-              ? state.previousFireData
-              : state.previousPlumeData
-          }
-          chartData={state.chartData}
-        />
+            chartData={state.chartData}
+          />
+        </div>
       </div>
     </MaterialUI.ThemeProvider>
   );

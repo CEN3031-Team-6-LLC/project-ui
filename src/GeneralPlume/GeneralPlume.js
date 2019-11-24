@@ -41,7 +41,7 @@ const GeneralPlume = props => {
   });
 
   return (
-    <div {...props} className={classes.generalPlume}>
+    <div className={classes.generalPlume}>
       <CustomWidgets.InputField
         placeholder="Source Amount"
         unit="Ci"

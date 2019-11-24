@@ -46,7 +46,7 @@ const GeneralFire = props => {
   });
 
   return (
-    <div {...props} className={classes.generalFire}>
+    <div className={classes.generalFire}>
       {/*------------------------------------------ Source Amount*/}
       <CustomWidgets.InputField
         placeholder="Source Amount"

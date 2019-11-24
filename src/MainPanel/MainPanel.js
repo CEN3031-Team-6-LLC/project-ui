@@ -20,7 +20,7 @@ const MainPanel = props => {
   const classes = useStyles();
   const [showChart, setShowChart] = React.useState(false);
   return (
-    <div className={classes.mainPanel} {...props}>
+    <div className={classes.mainPanel}>
       <div className={classes.switch}>
         <MaterialUI.Switch
           onChange={e => {
