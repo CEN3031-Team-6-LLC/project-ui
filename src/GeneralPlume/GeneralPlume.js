@@ -14,9 +14,19 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralPlume = props => {
-  const { onPlumeClick } = props;
+  const { onPlumeClick, hidden } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
+    maxDistanceAmount: {
+      amount: 0,
+      error: false,
+      errorMessage: "Error: Please enter a value greater than 0"
+    },
+    distanceIncrementAmount: {
+      amount: 0,
+      error: false,
+      errorMessage: "Error: Please enter a value greater than 0"
+    },
     sourceAmount: {
       amount: 0,
       error: false,
@@ -41,7 +51,38 @@ const GeneralPlume = props => {
   });
 
   return (
-    <div className={classes.generalPlume}>
+    <div className={classes.generalPlume} hidden={hidden}>
+      <CustomWidgets.InputField
+        placeholder="Maximum Distance"
+        unit="m"
+        unitTogglelable={true}
+        title="Maximum Distance"
+        data={state.maxDistanceAmount}
+        onChange={e => {
+          const value = window.parseInt(e.target.value);
+          if (value >= 0) {
+            state.maxDistanceAmount.amount = value;
+          } else {
+            state.maxDistanceAmount.error = true;
+          }
+          setState({ ...state });
+        }}
+      />
+      <CustomWidgets.InputField
+        placeholder="Distance Increment"
+        unit="m"
+        title="Distance Increment"
+        data={state.distanceIncrementAmount}
+        onChange={e => {
+          const value = window.parseInt(e.target.value);
+          if (value >= 0) {
+            state.distanceIncrementAmount.amount = value;
+          } else {
+            state.distanceIncrementAmount.error = true;
+          }
+          setState({ ...state });
+        }}
+      />
       <CustomWidgets.InputField
         placeholder="Source Amount"
         unit="Ci"
@@ -121,7 +162,7 @@ const GeneralPlume = props => {
         variant="contained"
         onClick={() => onPlumeClick(state)}
       >
-        Show Graph
+        Calculate
       </MaterialUI.Button>
     </div>
   );

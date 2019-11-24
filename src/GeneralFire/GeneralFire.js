@@ -13,7 +13,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralFire = props => {
-  const { onFireClick } = props;
+  const { onFireClick, hidden } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
     sourceAmount: {
@@ -46,7 +46,7 @@ const GeneralFire = props => {
   });
 
   return (
-    <div className={classes.generalFire}>
+    <div className={classes.generalFire} hidden={hidden}>
       {/*------------------------------------------ Source Amount*/}
       <CustomWidgets.InputField
         placeholder="Source Amount"
@@ -178,7 +178,7 @@ const GeneralFire = props => {
       />
 
       <MaterialUI.Button variant="contained" onClick={() => onFireClick(state)}>
-        Show Graph
+        Calculate
       </MaterialUI.Button>
     </div>
   );
