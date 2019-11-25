@@ -60,6 +60,14 @@ const App = props => {
   });
 
   const [dataFetched, setDataFetched] = React.useState(false);
+  const [lastReq, setLastReq] = React.useState({});
+  const onExportClick = lastReq => {
+    // post({ body: lastReq, type: lastReq.type }).then(data => {
+    //   console.log("Exporting", data);
+    //   setLastReq(lastReq);
+    // });
+    // TODO: Add export data fetch here
+  };
 
   return (
     <MaterialUI.ThemeProvider theme={theme}>
@@ -104,6 +112,7 @@ const App = props => {
               req.sourceAmount = fireReq.sourceAmount.amount;
               req.stability = fireReq.stability;
               req.windSpeed = fireReq.windSpeed.amount;
+              req.type = "fire";
 
               post({ body: req, type: "fire" }).then(data => {
                 // data = createData(data);
@@ -112,6 +121,7 @@ const App = props => {
                   previousFireData: data,
                   chartData: createData(data)
                 });
+                setLastReq(req);
                 setDataFetched(true);
               });
             }}
@@ -122,6 +132,7 @@ const App = props => {
               req.sourceAmount = plumeReq.sourceAmount.amount;
               req.stability = plumeReq.stability;
               req.windSpeed = plumeReq.windSpeed.amount;
+              req.type = "plume";
 
               post({ body: req, type: "plume" }).then(data => {
                 // data = createData(data);
@@ -130,6 +141,7 @@ const App = props => {
                   previousPlumeData: data,
                   chartData: createData(data)
                 });
+                setLastReq(req);
                 setDataFetched(true);
               });
             }}
@@ -145,6 +157,8 @@ const App = props => {
             dataFetched={dataFetched}
             setDataFetched={setDataFetched}
             chartData={state.chartData}
+            lastReq={lastReq}
+            onExportClick={onExportClick}
           />
         </div>
       </div>

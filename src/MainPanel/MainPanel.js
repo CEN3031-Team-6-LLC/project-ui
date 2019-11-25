@@ -2,6 +2,8 @@ import React from "react";
 import * as ChartJS from "react-chartjs-2";
 import * as MaterialUI from "@material-ui/core";
 import DataTable from "./DataTable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -10,13 +12,24 @@ const useStyles = MaterialUI.makeStyles(theme => {
     },
     switch: {
       display: "flex",
-      justifyContent: "flex-start"
+      justifyContent: "space-between",
+      alignItems: "center"
+    },
+    fileExport: {
+      color: "grey"
     }
   };
 });
 
 const MainPanel = props => {
-  const { data, chartData, dataFetched, setDataFetched } = props;
+  const {
+    data,
+    chartData,
+    dataFetched,
+    setDataFetched,
+    lastReq,
+    onExportClick
+  } = props;
   const classes = useStyles();
   const [showChart, setShowChart] = React.useState(false);
   const chartRef = React.useRef();
@@ -35,7 +48,16 @@ const MainPanel = props => {
             setShowChart(e.target.checked);
           }}
         />
+        <MaterialUI.Tooltip title="Export Raw Data">
+          <MaterialUI.Button
+            onClick={() => onExportClick(lastReq)}
+            className={classes.fileExport}
+          >
+            <FontAwesomeIcon icon={faFileExport} />
+          </MaterialUI.Button>
+        </MaterialUI.Tooltip>
       </div>
+
       {showChart ? (
         <ChartJS.Line
           ref={chartRef}
