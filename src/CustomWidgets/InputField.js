@@ -24,7 +24,7 @@ const InputField = props => {
     placeholder,
     unit,
     unitTogglelable,
-    unit2,
+    onUnitClick,
     onChange,
     data,
     title,
@@ -51,10 +51,10 @@ const InputField = props => {
         startAdornment: (
           <MaterialUI.InputAdornment
             className={classes.adornment}
-            onClick={unitTogglelable ? adornmentClick : () => {}}
+            onClick={onUnitClick}
             position="start"
           >
-            {state ? unit : unit2}
+            {unit}
           </MaterialUI.InputAdornment>
         )
       }}

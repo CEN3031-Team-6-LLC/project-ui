@@ -29,7 +29,8 @@ const GeneralFire = props => {
     windSpeed: {
       amount: 0,
       error: false,
-      errorMessage: "Error: Windspeed must be between 0.1 and 50 m/s"
+      errorMessage: "Error: Windspeed must be between 0.1 and 50 m/s",
+      unit: "m/s"
     },
     receptorHeight: {
       amount: 0,
@@ -92,32 +93,40 @@ const GeneralFire = props => {
       {/*----------------------------------------------- Wind Speed*/}
       <CustomWidgets.InputField
         placeholder="Wind Speed"
-        unit="m/s"
+        unit={state.windSpeed.unit}
         unitTogglelable={true}
-        unit2="mph"
         title="Wind Speed"
         type="number"
         data={state.windSpeed}
+        onUnitClick={() => {
+          if (state.windSpeed.unit === "m/s") {
+            state.windSpeed.unit = "mph";
+            setState({ ...state });
+          } else if (state.windSpeed.unit === "mph") {
+            state.windSpeed.unit = "m/s";
+            setState({ ...state });
+          }
+        }}
         onChange={e => {
           const value = window.parseFloat(e.target.value);
 
           // Condition mph
-          if (state.unitTogglelable === true) {
-            //<<------- This line needs fix
-
+          if (state.windSpeed.unit === "mph") {
             if (value >= 0.2 && value <= 110) {
-              state.fireCloudTop.amount = value;
+              state.windSpeed.amount = value;
+              state.windSpeed.error = false;
             } else {
               state.windSpeed.error = true;
-              state.windSpeed.errorMessage =
-                "Error: Value must be between 0.2 and 110 mph";
             }
 
             // Condition m/s
-          } else if (value >= 0.1 && value <= 50) {
-            state.windSpeed.amount = value;
-          } else {
-            state.windSpeed.error = true;
+          } else if (state.windSpeed.unit === "m/s") {
+            if (value >= 0.1 && value <= 50) {
+              state.windSpeed.amount = value;
+              state.windSpeed.error = false;
+            } else {
+              state.windSpeed.error = true;
+            }
           }
 
           setState({ ...state });
