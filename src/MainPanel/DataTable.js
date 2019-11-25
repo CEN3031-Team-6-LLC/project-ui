@@ -12,7 +12,6 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 const DataTable = props => {
   const { data } = props;
-  console.log("The fire data", data);
   const classes = useStyles();
   return (
     <MaterialUI.Paper className={classes.datasheet}>

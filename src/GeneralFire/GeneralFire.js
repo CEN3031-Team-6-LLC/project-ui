@@ -60,6 +60,7 @@ const GeneralFire = props => {
           const value = window.parseInt(e.target.value);
           if (value >= 0) {
             state.sourceAmount.amount = value;
+            state.sourceAmount.error = false;
           } else {
             state.sourceAmount.error = true;
           }
@@ -80,6 +81,7 @@ const GeneralFire = props => {
           const value = window.parseInt(e.target.value);
           if (value >= 0) {
             state.fireCloudTop.amount = value;
+            state.fireCloudTop.error = false;
           } else {
             state.fireCloudTop.error = true;
           }

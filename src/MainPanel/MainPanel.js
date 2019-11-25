@@ -16,9 +16,18 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const MainPanel = props => {
-  const { data, chartData } = props;
+  const { data, chartData, dataFetched, setDataFetched } = props;
   const classes = useStyles();
   const [showChart, setShowChart] = React.useState(false);
+  const chartRef = React.useRef();
+
+  React.useEffect(() => {
+    console.log("Chart ref", chartRef);
+    if (dataFetched && chartRef.current) {
+      chartRef.current.chartInstance.chart.update();
+      setDataFetched(false);
+    }
+  });
   return (
     <div className={classes.mainPanel}>
       <div className={classes.switch}>
@@ -30,6 +39,7 @@ const MainPanel = props => {
       </div>
       {showChart ? (
         <ChartJS.Line
+          ref={chartRef}
           data={chartData}
           width={100}
           height={500}

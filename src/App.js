@@ -58,6 +58,9 @@ const App = props => {
     chartData: {},
     tabIndex: "fire"
   });
+
+  const [dataFetched, setDataFetched] = React.useState(false);
+
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
@@ -109,10 +112,10 @@ const App = props => {
                   previousFireData: data,
                   chartData: createData(data)
                 });
+                setDataFetched(true);
               });
             }}
             onPlumeShowGraphClick={plumeReq => {
-              console.log("The plume req", plumeReq);
               let req = {};
               req.releaseHeight = plumeReq.releaseHeight.amount;
               req.receptorHeight = plumeReq.receptorHeight.amount;
@@ -127,6 +130,7 @@ const App = props => {
                   previousPlumeData: data,
                   chartData: createData(data)
                 });
+                setDataFetched(true);
               });
             }}
           />
@@ -138,6 +142,8 @@ const App = props => {
                 ? state.previousFireData
                 : state.previousPlumeData
             }
+            dataFetched={dataFetched}
+            setDataFetched={setDataFetched}
             chartData={state.chartData}
           />
         </div>
