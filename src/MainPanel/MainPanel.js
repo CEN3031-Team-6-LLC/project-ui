@@ -22,7 +22,6 @@ const MainPanel = props => {
   const chartRef = React.useRef();
 
   React.useEffect(() => {
-    console.log("Chart ref", chartRef);
     if (dataFetched && chartRef.current) {
       chartRef.current.chartInstance.chart.update();
       setDataFetched(false);

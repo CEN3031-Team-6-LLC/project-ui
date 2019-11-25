@@ -19,12 +19,14 @@ const GeneralFire = props => {
     sourceAmount: {
       amount: 0,
       error: false,
-      errorMessage: "Error: Source Amount must be greater than 0"
+      errorMessage: "Error: Source Amount must be greater than 0",
+      unit: "Ci"
     },
     fireCloudTop: {
       amount: 0,
       error: false,
-      errorMessage: "Error: Please enter a value greater than 0"
+      errorMessage: "Error: Please enter a value greater than 0",
+      unit: "m"
     },
     windSpeed: {
       amount: 0,
@@ -35,27 +37,39 @@ const GeneralFire = props => {
     receptorHeight: {
       amount: 0,
       error: false,
-      errorMessage: "Error: Receptor Height must be greater than zero"
+      errorMessage: "Error: Receptor Height must be greater than zero",
+      unit: "m"
     },
 
     fireRadius: {
       amount: 0,
       error: false,
-      errorMessage: "Error: Radius must be greater than zero"
+      errorMessage: "Error: Radius must be greater than zero",
+      unit: "m"
     },
     stability: "a"
   });
+
+  const onUnitClick = (varName, unit1, unit2) => {
+    if (state[varName].unit === unit1) {
+      state[varName].unit = unit2;
+      setState({ ...state });
+    } else if (state[varName].unit === unit2) {
+      state[varName].unit = unit1;
+      setState({ ...state });
+    }
+  };
 
   return (
     <div className={classes.generalFire} hidden={hidden}>
       {/*------------------------------------------ Source Amount*/}
       <CustomWidgets.InputField
         placeholder="Source Amount"
-        unit="Ci"
+        unit={state.sourceAmount.unit}
         unitTogglelable={true}
-        unit2="Bq"
         title="Source Amount"
         type="number"
+        onUnitClick={() => onUnitClick("sourceAmount", "Ci", "Bq")}
         data={state.sourceAmount}
         onChange={e => {
           const value = window.parseInt(e.target.value);
@@ -74,7 +88,7 @@ const GeneralFire = props => {
         placeholder="Fire Cloud Top"
         unit="m"
         unitTogglelable={true}
-        unit2="ft"
+        onUnitClick={() => onUnitClick("fireCloudTop", "m", "ft")}
         title="Fire Cloud Top"
         type="number"
         data={state.fireCloudTop}
@@ -98,15 +112,7 @@ const GeneralFire = props => {
         title="Wind Speed"
         type="number"
         data={state.windSpeed}
-        onUnitClick={() => {
-          if (state.windSpeed.unit === "m/s") {
-            state.windSpeed.unit = "mph";
-            setState({ ...state });
-          } else if (state.windSpeed.unit === "mph") {
-            state.windSpeed.unit = "m/s";
-            setState({ ...state });
-          }
-        }}
+        onUnitClick={() => onUnitClick("windSpeed", "m/s", "mph")}
         onChange={e => {
           const value = window.parseFloat(e.target.value);
 
@@ -136,11 +142,11 @@ const GeneralFire = props => {
       {/*----------------------------------------------- Receptor Height*/}
       <CustomWidgets.InputField
         placeholder="Receptor Height"
-        unit="m"
+        unit={state.receptorHeight.unit}
         unitTogglelable={true}
-        unit2="ft"
         title="Receptor Height"
         type="number"
+        onUnitClick={() => onUnitClick("receptorHeight", "m", "ft")}
         data={state.receptorHeight}
         onChange={e => {
           const value = window.parseInt(e.target.value);
@@ -156,12 +162,12 @@ const GeneralFire = props => {
       {/*--------------------------------------------------- Fire Radius*/}
       <CustomWidgets.InputField
         placeholder="Fire Radius"
-        unit="m"
+        unit={state.fireRadius.unit}
         unitTogglelable={true}
-        unit2="ft"
         title="Fire Radius"
         type="number"
         data={state.fireRadius}
+        onUnitClick={() => onUnitClick("fireRadius", "m", "ft")}
         onChange={e => {
           const value = window.parseInt(e.target.value);
           if (value >= 0) {

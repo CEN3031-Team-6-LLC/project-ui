@@ -20,22 +20,8 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const InputField = props => {
-  const {
-    placeholder,
-    unit,
-    unitTogglelable,
-    onUnitClick,
-    onChange,
-    data,
-    title,
-    type
-  } = props;
-  const [state, setState] = React.useState(true);
+  const { placeholder, unit, onUnitClick, onChange, data, title, type } = props;
   const classes = useStyles();
-
-  const adornmentClick = () => {
-    setState(!state);
-  };
 
   return (
     <MaterialUI.TextField
