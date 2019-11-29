@@ -62,10 +62,6 @@ const App = props => {
   const [dataFetched, setDataFetched] = React.useState(false);
   const [lastReq, setLastReq] = React.useState({});
   const onExportClick = lastReq => {
-    // post({ body: lastReq, type: lastReq.type }).then(data => {
-    //   console.log("Exporting", data);
-    //   setLastReq(lastReq);
-    // });
     // TODO: Add export data fetch here
   };
 
@@ -105,14 +101,45 @@ const App = props => {
               }
             }}
             onFireShowGraphClick={fireReq => {
+              // * These are required exactly as they are. Otherwise it will give a CORS error.
+              // * It's a confusing warning that needs to be fixed in api
               let req = {};
-              req.fireCloudTop = fireReq.fireCloudTop.amount;
-              req.fireRadius = fireReq.fireRadius.amount;
-              req.receptorHeight = fireReq.receptorHeight.amount;
               req.sourceAmount = fireReq.sourceAmount.amount;
-              req.stability = fireReq.stability;
+              req.fireCloudTop = fireReq.fireCloudTop.amount;
               req.windSpeed = fireReq.windSpeed.amount;
+              req.receptorHeight = fireReq.receptorHeight.amount;
+              req.fireRadius = fireReq.fireRadius.amount;
+              req.stability = fireReq.stability;
+              req.maxDistance = 1000;
+              req.distanceIncrement = 1;
+              req.isotop = "H-3";
+              req.nuclide = "H";
+              req.lungClass = "F";
               req.type = "fire";
+
+              fetch("https://quiet-atoll-96617.herokuapp.com/api/export/fire", {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "http://localhost:3000",
+                  "Access-Control-Request-Method": "POST"
+                },
+                body: JSON.stringify(req) //
+              })
+                .then(resp => {
+                  resp.text().then(text => {
+                    const urlPreHeaders = "data:text/csv;charset=utf-8,";
+                    const csvUrl = urlPreHeaders + text;
+                    const encodedCSVURI = encodeURI(csvUrl);
+                    var link = document.createElement("a");
+                    link.setAttribute("href", encodedCSVURI);
+                    link.setAttribute("download", "my_data.csv");
+                    document.body.appendChild(link); // Required for FF
+                    link.click();
+                    document.body.removeChild(link);
+                  });
+                })
+                .catch(e => console.log(e));
 
               post({ body: req, type: "fire" }).then(data => {
                 // data = createData(data);
@@ -126,12 +153,19 @@ const App = props => {
               });
             }}
             onPlumeShowGraphClick={plumeReq => {
+              // * These are required exactly as they are. Otherwise it will give a CORS error.
+              // * It's a confusing warning that needs to be fixed in api
               let req = {};
-              req.releaseHeight = plumeReq.releaseHeight.amount;
-              req.receptorHeight = plumeReq.receptorHeight.amount;
               req.sourceAmount = plumeReq.sourceAmount.amount;
-              req.stability = plumeReq.stability;
               req.windSpeed = plumeReq.windSpeed.amount;
+              req.receptorHeight = plumeReq.receptorHeight.amount;
+              req.releaseHeight = plumeReq.releaseHeight.amount;
+              req.stability = plumeReq.stability;
+              req.maxDistance = 1000;
+              req.distanceIncrement = 1;
+              req.isotop = "H-3";
+              req.nuclide = "H";
+              req.lungClass = "F";
               req.type = "plume";
 
               post({ body: req, type: "plume" }).then(data => {
