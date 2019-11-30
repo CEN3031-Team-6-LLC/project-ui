@@ -3,7 +3,7 @@ import * as CustomWidgets from "../../CustomWidgets";
 import { PropTypes } from "prop-types";
 
 const SourceAmount = props => {
-  const { onSourceAmountChange, unit, setUnit } = props;
+  const { onChange, unit, setUnit } = props;
   const name = "Source Amount";
   const unitTogglelable = true;
   const type = "number";
@@ -11,7 +11,7 @@ const SourceAmount = props => {
   const [error, setError] = React.useState(false);
   const [value, setValue] = React.useState("");
 
-  const onChange = e => {
+  const _onChange = e => {
     setValue(e.currentTarget.value);
   };
 
@@ -24,8 +24,8 @@ const SourceAmount = props => {
   }, [value]);
 
   React.useEffect(() => {
-    onSourceAmountChange({ error, value });
-  }, [value, error]);
+    onChange({ error, value });
+  }, [value, error, onChange]);
 
   return (
     <CustomWidgets.InputField
@@ -37,7 +37,7 @@ const SourceAmount = props => {
       onUnitClick={() => (unit === "Ci" ? setUnit("Bq") : setUnit("Ci"))}
       error={error}
       errorMessage={errorMessage}
-      onChange={onChange}
+      onChange={_onChange}
     />
   );
 };

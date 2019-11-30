@@ -16,7 +16,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralFire = props => {
-  const { onFireClick, hidden } = props;
+  const { hidden } = props;
   const classes = useStyles();
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [fieldValues, setFieldValues] = React.useState({
@@ -33,7 +33,7 @@ const GeneralFire = props => {
       <SourceAmount
         unit={sourceUnit}
         setUnit={unit => setSourceUnit(unit)}
-        onSourceAmountChange={val => {
+        onChange={val => {
           setFieldValues({ ...fieldValues, sourceAmount: { ...val } });
         }}
       />
@@ -44,6 +44,7 @@ const GeneralFire = props => {
           const valid = validateFireFields(fieldValues);
           if (valid === true) {
             console.log("Success", valid);
+            // TODO: Send api request here
           } else {
             setError({
               status: true,
