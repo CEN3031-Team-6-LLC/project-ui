@@ -89,6 +89,19 @@ const GeneralFire = props => {
         }}
       />
 
+      <InputField
+        name="Receptor Height"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Receptor Height must be greater than 0"
+        unit={lengthUnit}
+        inputValidation={value => value >= 0}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, receptorHeight: { ...val } });
+        }}
+      />
+
       <MaterialUI.Button
         variant="contained"
         onClick={() => {
