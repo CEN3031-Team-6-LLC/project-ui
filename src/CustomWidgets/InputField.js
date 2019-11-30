@@ -20,7 +20,16 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const InputField = props => {
-  const { placeholder, unit, onUnitClick, onChange, data, title, type } = props;
+  const {
+    placeholder,
+    unit,
+    onUnitClick,
+    onChange,
+    error,
+    errorMessage,
+    title,
+    type
+  } = props;
   const classes = useStyles();
 
   return (
@@ -31,8 +40,8 @@ const InputField = props => {
       onChange={onChange}
       label={title}
       type={type}
-      error={data ? data.error : false}
-      helperText={data && data.error ? data.errorMessage : ""}
+      error={error}
+      helperText={error ? errorMessage : ""}
       InputProps={{
         startAdornment: (
           <MaterialUI.InputAdornment

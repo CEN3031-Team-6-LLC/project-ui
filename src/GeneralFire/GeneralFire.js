@@ -2,6 +2,7 @@ import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import * as CustomWidgets from "../CustomWidgets";
 import { validateFireBody } from "./validateFireBody";
+import SourceAmount from "./InputFields/SourceAmount";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -16,48 +17,35 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const GeneralFire = props => {
   const { onFireClick, hidden } = props;
   const classes = useStyles();
-  const [state, setState] = React.useState({});
-
-  const onUnitClick = (varName, unit1, unit2) => {
-    if (state[varName].unit === unit1) {
-      state[varName].unit = unit2;
-      setState({ ...state });
-    } else if (state[varName].unit === unit2) {
-      state[varName].unit = unit1;
-      setState({ ...state });
-    }
-  };
+  const [units, setUnits] = React.useState({
+    sourceAmount: "Ci"
+  });
+  const [fieldValues, setFieldValues] = React.useState({
+    sourceAmount: { error: false, value: "" }
+  });
 
   return (
     <div className={classes.generalFire} hidden={hidden}>
-      <CustomWidgets.InputField
-        placeholder="Source Amount"
-        unit={state.sourceAmount.unit}
-        unitTogglelable={true}
-        title="Source Amount"
-        type="number"
-        onUnitClick={() => onUnitClick("sourceAmount", "Ci", "Bq")}
-        data={state.sourceAmount}
-        onChange={e => {
-          const value = window.parseInt(e.target.value);
-          if (value >= 0) {
-            state.sourceAmount.amount = value;
-            state.sourceAmount.error = false;
-          } else {
-            state.sourceAmount.error = true;
-          }
-          setState({ ...state });
+      <SourceAmount
+        unit={units.sourceAmount}
+        setUnit={unit => setUnits({ ...units, sourceAmount: unit })}
+        onSourceAmountChange={val => {
+          setFieldValues({ ...fieldValues, sourceAmount: { ...val } });
         }}
       />
 
       <MaterialUI.Button
         variant="contained"
         onClick={() => {
-          const valid = validateFireBody(state);
-          if (valid === true) {
-            onFireClick(state);
-          } else {
-            console.log("Invalid fire request", valid.message);
+          const keys = Object.keys(fieldValues);
+          for (let i = 0; i < keys.length; i++) {
+            if (
+              fieldValues[keys[i]].value === "" ||
+              fieldValues[keys[i]].error
+            ) {
+              console.log("invalid", keys[i]);
+              break;
+            }
           }
         }}
       >
