@@ -2,6 +2,8 @@ import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import SourceAmount from "./InputFields/SourceAmount";
 import { validateFireFields } from "./helpers";
+import ErrorDialog from "CustomWidgets/ErrorDialog";
+import { KeyStrings } from "../General/KeyStrings";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -22,6 +24,11 @@ const GeneralFire = props => {
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" }
   });
+  const [error, setError] = React.useState({
+    status: false,
+    title: "",
+    message: ""
+  });
 
   return (
     <div className={classes.generalFire} hidden={hidden}>
@@ -40,12 +47,28 @@ const GeneralFire = props => {
           if (valid === true) {
             console.log("Success", valid);
           } else {
-            console.log("invalid", valid.key, valid.errorMessage);
+            setError({
+              status: true,
+              title: `Error: You must enter a valid ${KeyStrings[valid.key]}`,
+              message: `Please enter a valid value for ${KeyStrings[valid.key]}`
+            });
           }
         }}
       >
         Calculate
       </MaterialUI.Button>
+      <ErrorDialog
+        openDialog={error.status}
+        title={error.title}
+        message={error.message}
+        onCloseDialog={() => {
+          setError({
+            status: false,
+            title: "",
+            message: ""
+          });
+        }}
+      />
     </div>
   );
 };
