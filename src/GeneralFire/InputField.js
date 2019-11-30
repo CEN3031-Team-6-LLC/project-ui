@@ -10,7 +10,8 @@ const InputField = props => {
     name,
     unitTogglelable,
     type,
-    errorMessage
+    errorMessage,
+    inputValidation
   } = props;
   const [error, setError] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -20,10 +21,10 @@ const InputField = props => {
   };
 
   React.useEffect(() => {
-    if (value < 0) {
-      setError(true);
-    } else {
+    if (inputValidation(value)) {
       setError(false);
+    } else {
+      setError(true);
     }
   }, [value]);
 
@@ -48,6 +49,11 @@ const InputField = props => {
 };
 
 InputField.propTypes = {
+  name: PropTypes.string.isRequired,
+  unitTogglelable: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  inputValidation: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   unit: PropTypes.string.isRequired,
   setUnit: PropTypes.func.isRequired

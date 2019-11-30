@@ -20,6 +20,7 @@ const GeneralFire = props => {
   const classes = useStyles();
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [lengthUnit, setLengthUnit] = React.useState("m");
+  const [speedUnit, setSpeedUnit] = React.useState("m/s");
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
     fireCloudTop: { error: false, value: "" },
@@ -48,6 +49,7 @@ const GeneralFire = props => {
         errorMessage="Error: Source Amount must be greater than 0"
         unit={sourceUnit}
         setUnit={unit => setSourceUnit(unit)}
+        inputValidation={value => value >= 0}
         onChange={val => {
           setFieldValues({ ...fieldValues, sourceAmount: { ...val } });
         }}
@@ -59,6 +61,7 @@ const GeneralFire = props => {
         type="number"
         errorMessage="Error: Fire Cloud Top must be greater than 0"
         unit={lengthUnit}
+        inputValidation={value => value >= 0}
         setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
         onChange={val => {
           setFieldValues({ ...fieldValues, fireCloudTop: { ...val } });
@@ -69,9 +72,18 @@ const GeneralFire = props => {
         name="Wind Speed"
         unitTogglelable={true}
         type="number"
-        errorMessage="Error: Wind Speed must be greater than 0"
-        unit={lengthUnit}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        errorMessage={`Error: Wind Speed must be between ${
+          speedUnit === "m/s" ? "0.1 and 50 m/s" : "0.2 and 111 mph"
+        }`}
+        unit={speedUnit}
+        inputValidation={value => {
+          if (speedUnit === "m/s") {
+            return 0 <= value && value <= 50;
+          } else {
+            return 0 <= value && value <= 111;
+          }
+        }}
+        setUnit={() => setSpeedUnit(speedUnit === "m/s" ? "mph" : "m/s")}
         onChange={val => {
           setFieldValues({ ...fieldValues, windSpeed: { ...val } });
         }}
