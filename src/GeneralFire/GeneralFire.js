@@ -1,8 +1,7 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
-import * as CustomWidgets from "../CustomWidgets";
-import { validateFireBody } from "./validateFireBody";
 import SourceAmount from "./InputFields/SourceAmount";
+import { validateFireFields } from "./helpers";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -37,15 +36,11 @@ const GeneralFire = props => {
       <MaterialUI.Button
         variant="contained"
         onClick={() => {
-          const keys = Object.keys(fieldValues);
-          for (let i = 0; i < keys.length; i++) {
-            if (
-              fieldValues[keys[i]].value === "" ||
-              fieldValues[keys[i]].error
-            ) {
-              console.log("invalid", keys[i]);
-              break;
-            }
+          const valid = validateFireFields(fieldValues);
+          if (valid === true) {
+            console.log("Success", valid);
+          } else {
+            console.log("invalid", valid.key, valid.errorMessage);
           }
         }}
       >
