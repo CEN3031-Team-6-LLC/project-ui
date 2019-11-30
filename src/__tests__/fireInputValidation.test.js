@@ -106,4 +106,63 @@ describe("Fire Input Validation", () => {
       message: "req must contain distanceIncrement"
     });
   });
+
+  test("expect isotop to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0,
+      stability: 0,
+      maxDistance: 0,
+      distanceIncrement: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain isotop"
+    });
+  });
+
+  test("expect nuclide to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0,
+      stability: 0,
+      maxDistance: 0,
+      distanceIncrement: 0,
+
+      isotop: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain nuclide"
+    });
+  });
+
+  test("expect lungClass to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0,
+      stability: 0,
+      maxDistance: 0,
+      isotop: 0,
+      distanceIncrement: 0,
+
+      nuclide: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain lungClass"
+    });
+  });
 });

@@ -7,7 +7,10 @@ export const validateFireBody = req => {
     "fireRadius",
     "stability",
     "maxDistance",
-    "distanceIncrement"
+    "distanceIncrement",
+    "isotop",
+    "nuclide",
+    "lungClass"
   ];
   for (let i = 0; i < keysExpected.length; i++) {
     if (!Object.keys(req).includes(keysExpected[i])) {
