@@ -1,6 +1,7 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import * as CustomWidgets from "../CustomWidgets";
+import { validateFireBody } from "./validateFireBody";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -194,7 +195,17 @@ const GeneralFire = props => {
         value={state.stability}
       />
 
-      <MaterialUI.Button variant="contained" onClick={() => onFireClick(state)}>
+      <MaterialUI.Button
+        variant="contained"
+        onClick={() => {
+          const valid = validateFireBody(state);
+          if (valid === true) {
+            onFireClick(state);
+          } else {
+            console.log("Invalid fire request", valid.message);
+          }
+        }}
+      >
         Calculate
       </MaterialUI.Button>
     </div>
