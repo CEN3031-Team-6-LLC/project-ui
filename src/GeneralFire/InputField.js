@@ -29,7 +29,8 @@ const InputField = props => {
 
   React.useEffect(() => {
     onChange({ error, value });
-  }, [value, error, onChange]);
+    // eslint-disable-next-line
+  }, [value, error]);
 
   return (
     <CustomWidgets.InputField
@@ -47,7 +48,7 @@ const InputField = props => {
 };
 
 InputField.propTypes = {
-  onSourceAmountChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   unit: PropTypes.string.isRequired,
   setUnit: PropTypes.func.isRequired
 };

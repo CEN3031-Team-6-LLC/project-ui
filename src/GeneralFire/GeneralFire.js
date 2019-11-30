@@ -53,10 +53,23 @@ const GeneralFire = props => {
         }}
       />
 
+      <InputField
+        name="Fire Cloud Top"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Fire Cloud Top must be greater than 0"
+        unit={lengthUnit}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, fireCloudTop: { ...val } });
+        }}
+      />
+
       <MaterialUI.Button
         variant="contained"
         onClick={() => {
           const valid = validateFireFields(fieldValues);
+          console.log("valid", valid);
           if (valid === true) {
             console.log("Success", valid);
             // TODO: Send api request here
