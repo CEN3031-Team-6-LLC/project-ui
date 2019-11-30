@@ -18,9 +18,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const GeneralFire = props => {
   const { onFireClick, hidden } = props;
   const classes = useStyles();
-  const [units, setUnits] = React.useState({
-    sourceAmount: "Ci"
-  });
+  const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" }
   });
@@ -33,8 +31,8 @@ const GeneralFire = props => {
   return (
     <div className={classes.generalFire} hidden={hidden}>
       <SourceAmount
-        unit={units.sourceAmount}
-        setUnit={unit => setUnits({ ...units, sourceAmount: unit })}
+        unit={sourceUnit}
+        setUnit={unit => setSourceUnit(unit)}
         onSourceAmountChange={val => {
           setFieldValues({ ...fieldValues, sourceAmount: { ...val } });
         }}
