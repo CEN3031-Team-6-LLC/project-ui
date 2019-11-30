@@ -1,6 +1,6 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
-import SourceAmount from "./InputFields/SourceAmount";
+import InputField from "./InputField";
 import { validateFireFields } from "./helpers";
 import ErrorDialog from "CustomWidgets/ErrorDialog";
 import { KeyStrings } from "../General/KeyStrings";
@@ -19,8 +19,19 @@ const GeneralFire = props => {
   const { hidden } = props;
   const classes = useStyles();
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
+  const [lengthUnit, setLengthUnit] = React.useState("m");
   const [fieldValues, setFieldValues] = React.useState({
-    sourceAmount: { error: false, value: "" }
+    sourceAmount: { error: false, value: "" },
+    fireCloudTop: { error: false, value: "" },
+    windSpeed: { error: false, value: "" },
+    receptorHeight: { error: false, value: "" },
+    fireRadius: { error: false, value: "" },
+    stability: { error: false, value: "" },
+    maxDistance: { error: false, value: "" },
+    distanceIncrement: { error: false, value: "" },
+    isotop: { error: false, value: "" },
+    nuclide: { error: false, value: "" },
+    lungClass: { error: false, value: "" }
   });
   const [error, setError] = React.useState({
     status: false,
@@ -30,7 +41,11 @@ const GeneralFire = props => {
 
   return (
     <div className={classes.generalFire} hidden={hidden}>
-      <SourceAmount
+      <InputField
+        name="Source Amount"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Source Amount must be greater than 0"
         unit={sourceUnit}
         setUnit={unit => setSourceUnit(unit)}
         onChange={val => {

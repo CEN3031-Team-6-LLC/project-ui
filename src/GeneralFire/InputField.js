@@ -1,13 +1,17 @@
 import React from "react";
-import * as CustomWidgets from "../../CustomWidgets";
+import * as CustomWidgets from "../CustomWidgets";
 import { PropTypes } from "prop-types";
 
-const SourceAmount = props => {
-  const { onChange, unit, setUnit } = props;
-  const name = "Source Amount";
-  const unitTogglelable = true;
-  const type = "number";
-  const errorMessage = "Error: Source Amount must be greater than 0";
+const InputField = props => {
+  const {
+    onChange,
+    unit,
+    setUnit,
+    name,
+    unitTogglelable,
+    type,
+    errorMessage
+  } = props;
   const [error, setError] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -42,10 +46,10 @@ const SourceAmount = props => {
   );
 };
 
-SourceAmount.propTypes = {
+InputField.propTypes = {
   onSourceAmountChange: PropTypes.func.isRequired,
   unit: PropTypes.string.isRequired,
   setUnit: PropTypes.func.isRequired
 };
 
-export default SourceAmount;
+export default InputField;
