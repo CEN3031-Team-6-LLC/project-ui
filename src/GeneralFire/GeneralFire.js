@@ -65,6 +65,18 @@ const GeneralFire = props => {
         }}
       />
 
+      <InputField
+        name="Wind Speed"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Wind Speed must be greater than 0"
+        unit={lengthUnit}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, windSpeed: { ...val } });
+        }}
+      />
+
       <MaterialUI.Button
         variant="contained"
         onClick={() => {

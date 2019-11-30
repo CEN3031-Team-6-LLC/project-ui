@@ -1,4 +1,5 @@
 export const KeyStrings = {
   sourceAmount: "Source Amount",
-  fireCloudTop: "Fire Cloud Top"
+  fireCloudTop: "Fire Cloud Top",
+  windSpeed: "Wind Speed"
 };
