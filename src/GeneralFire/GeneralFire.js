@@ -102,6 +102,19 @@ const GeneralFire = props => {
         }}
       />
 
+      <InputField
+        name="Fire Radius"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Fire Radius must be greater than 0"
+        unit={lengthUnit}
+        inputValidation={value => value >= 0}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, fireRadius: { ...val } });
+        }}
+      />
+
       <MaterialUI.Button
         variant="contained"
         onClick={() => {
