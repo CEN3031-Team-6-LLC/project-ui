@@ -27,6 +27,7 @@ const RadioButtons = props => {
         name="gender1"
         value={value}
         onChange={onChange}
+        row
       >
         {options.map((option, i) => {
           return (

@@ -28,7 +28,7 @@ const GeneralFire = props => {
     windSpeed: { error: false, value: "" },
     receptorHeight: { error: false, value: "" },
     fireRadius: { error: false, value: "" },
-    stability: { error: false, value: "" },
+    stability: { error: false, value: "a" },
     maxDistance: { error: false, value: "" },
     distanceIncrement: { error: false, value: "" },
     isotop: { error: false, value: "" },
@@ -124,6 +124,14 @@ const GeneralFire = props => {
           { value: "c", label: "C" },
           { value: "d", label: "D" }
         ]}
+        value={fieldValues.stability.value}
+        onChange={e => {
+          console.log("value", e.currentTarget.value);
+          setFieldValues({
+            ...fieldValues,
+            stability: { error: false, value: e.currentTarget.value }
+          });
+        }}
       />
 
       <MaterialUI.Button
