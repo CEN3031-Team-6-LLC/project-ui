@@ -31,4 +31,17 @@ describe("Fire Input Validation", () => {
       message: "req must contain windSpeed"
     });
   });
+
+  test("expect receptorHeight to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain receptorHeight"
+    });
+  });
 });
