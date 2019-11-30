@@ -44,4 +44,66 @@ describe("Fire Input Validation", () => {
       message: "req must contain receptorHeight"
     });
   });
+
+  test("expect fireRadius to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain fireRadius"
+    });
+  });
+
+  test("expect stability to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain stability"
+    });
+  });
+
+  test("expect maxDistance to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0,
+      stability: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain maxDistance"
+    });
+  });
+
+  test("expect distanceIncrement to exists", () => {
+    const req = {
+      sourceAmount: 0,
+      fireCloudTop: 0,
+      windSpeed: 0,
+      receptorHeight: 0,
+      fireRadius: 0,
+      stability: 0,
+      maxDistance: 0
+    };
+
+    expect(validateFireBody(req)).toEqual({
+      error: true,
+      message: "req must contain distanceIncrement"
+    });
+  });
 });

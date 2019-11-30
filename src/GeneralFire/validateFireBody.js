@@ -1,18 +1,18 @@
 export const validateFireBody = req => {
-  if (!Object.keys(req).includes("sourceAmount")) {
-    return { error: true, message: "req must contain sourceAmount" };
-  }
-
-  if (!Object.keys(req).includes("fireCloudTop")) {
-    return { error: true, message: "req must contain fireCloudTop" };
-  }
-
-  if (!Object.keys(req).includes("windSpeed")) {
-    return { error: true, message: "req must contain windSpeed" };
-  }
-
-  if (!Object.keys(req).includes("receptorHeight")) {
-    return { error: true, message: "req must contain receptorHeight" };
+  const keysExpected = [
+    "sourceAmount",
+    "fireCloudTop",
+    "windSpeed",
+    "receptorHeight",
+    "fireRadius",
+    "stability",
+    "maxDistance",
+    "distanceIncrement"
+  ];
+  for (let i = 0; i < keysExpected.length; i++) {
+    if (!Object.keys(req).includes(keysExpected[i])) {
+      return { error: true, message: `req must contain ${keysExpected[i]}` };
+    }
   }
 
   return true;
