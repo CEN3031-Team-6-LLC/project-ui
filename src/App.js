@@ -117,30 +117,6 @@ const App = props => {
               req.lungClass = "F";
               req.type = "fire";
 
-              fetch("https://quiet-atoll-96617.herokuapp.com/api/export/fire", {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "http://localhost:3000",
-                  "Access-Control-Request-Method": "POST"
-                },
-                body: JSON.stringify(req) //
-              })
-                .then(resp => {
-                  resp.text().then(text => {
-                    const urlPreHeaders = "data:text/csv;charset=utf-8,";
-                    const csvUrl = urlPreHeaders + text;
-                    const encodedCSVURI = encodeURI(csvUrl);
-                    var link = document.createElement("a");
-                    link.setAttribute("href", encodedCSVURI);
-                    link.setAttribute("download", "my_data.csv");
-                    document.body.appendChild(link); // Required for FF
-                    link.click();
-                    document.body.removeChild(link);
-                  });
-                })
-                .catch(e => console.log(e));
-
               post({ body: req, type: "fire" }).then(data => {
                 // data = createData(data);
                 setState({
