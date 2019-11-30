@@ -4,6 +4,7 @@ import InputField from "./InputField";
 import { validateFireFields } from "./helpers";
 import ErrorDialog from "CustomWidgets/ErrorDialog";
 import { KeyStrings } from "../General/KeyStrings";
+import { RadioButtons } from "CustomWidgets";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -113,6 +114,16 @@ const GeneralFire = props => {
         onChange={val => {
           setFieldValues({ ...fieldValues, fireRadius: { ...val } });
         }}
+      />
+
+      <RadioButtons
+        title="Stability"
+        options={[
+          { value: "a", label: "A" },
+          { value: "b", label: "B" },
+          { value: "c", label: "C" },
+          { value: "d", label: "D" }
+        ]}
       />
 
       <MaterialUI.Button
