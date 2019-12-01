@@ -21,12 +21,18 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const GeneralFire = props => {
   const { hidden } = props;
   const classes = useStyles();
+  const metric = {
+    length: "m",
+    speed: "m/s"
+  };
+  const imperial = {
+    length: "ft",
+    speed: "mph"
+  };
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
-  const [lengthUnit, setLengthUnit] = React.useState("m");
-  const [speedUnit, setSpeedUnit] = React.useState("m/s");
+  const [metricImperial, setMetricImperial] = React.useState(metric);
   const [nuclide, setNuclide] = React.useState("Ac-224");
   const [lungClass, setLungClass] = React.useState("");
-
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
     fireCloudTop: { error: false, value: "" },
@@ -66,9 +72,13 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Fire Cloud Top must be greater than 0"
-        unit={lengthUnit}
+        unit={metricImperial.length}
         inputValidation={value => value >= 0}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.length === "m" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, fireCloudTop: { ...val } });
         }}
@@ -79,17 +89,21 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage={`Error: Wind Speed must be between ${
-          speedUnit === "m/s" ? "0.1 and 50 m/s" : "0.2 and 111 mph"
+          metricImperial.speed === "m/s" ? "0.1 and 50 m/s" : "0.2 and 111 mph"
         }`}
-        unit={speedUnit}
+        unit={metricImperial.speed}
         inputValidation={value => {
-          if (speedUnit === "m/s") {
+          if (metricImperial.speed === "m/s") {
             return 0 <= value && value <= 50;
           } else {
             return 0 <= value && value <= 111;
           }
         }}
-        setUnit={() => setSpeedUnit(speedUnit === "m/s" ? "mph" : "m/s")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.speed === "m/s" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, windSpeed: { ...val } });
         }}
@@ -100,9 +114,13 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Receptor Height must be greater than 0"
-        unit={lengthUnit}
+        unit={metricImperial.length}
         inputValidation={value => value >= 0}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.length === "m" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, receptorHeight: { ...val } });
         }}
@@ -113,9 +131,13 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Fire Radius must be greater than 0"
-        unit={lengthUnit}
+        unit={metricImperial.length}
         inputValidation={value => value >= 0}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.length === "m" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, fireRadius: { ...val } });
         }}
@@ -126,9 +148,13 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Max Distance must be greater than 0"
-        unit={lengthUnit}
+        unit={metricImperial.length}
         inputValidation={value => value >= 0}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.length === "m" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, maxDistance: { ...val } });
         }}
@@ -139,9 +165,13 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Distance Increment must be greater than 0"
-        unit={lengthUnit}
+        unit={metricImperial.length}
         inputValidation={value => value >= 0}
-        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        setUnit={() =>
+          setMetricImperial(
+            metricImperial.length === "m" ? { ...imperial } : { ...metric }
+          )
+        }
         onChange={val => {
           setFieldValues({ ...fieldValues, distanceIncrement: { ...val } });
         }}
