@@ -18,7 +18,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 export default function Nuclide(props) {
   const classes = useStyles();
   const [nuclideList, setNuclideList] = React.useState([]);
-  const [value, setValue] = React.useState("H");
+  const [value, setValue] = React.useState("Ac-224");
   const handleChange = e => {
     setValue(e.target.value);
   };
@@ -32,9 +32,11 @@ export default function Nuclide(props) {
         const textArr = JSON.parse(text);
         let nuclideSet = new Set();
         textArr.forEach(nuclidePair => {
-          nuclideSet.add(nuclidePair.nuclide);
+          nuclideSet.add(nuclidePair.isotop);
         });
-        setNuclideList([...nuclideSet]);
+        let nuclides = [...nuclideSet];
+        nuclides.sort();
+        setNuclideList(nuclides);
       })
       .catch(e => console.log("Error", e));
   }, []);
