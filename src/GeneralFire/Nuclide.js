@@ -17,6 +17,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 export default function Nuclide(props) {
   const classes = useStyles();
+  const [nuclideList, setNuclideList] = React.useState([]);
   const age = 20;
   const handleChange = e => {};
 
@@ -25,7 +26,14 @@ export default function Nuclide(props) {
       .then(resp => {
         return resp.text();
       })
-      .then(text => console.log(text))
+      .then(text => {
+        const textArr = JSON.parse(text);
+        let nuclideSet = new Set();
+        textArr.forEach(nuclidePair => {
+          nuclideSet.add(nuclidePair.nuclide);
+        });
+        setNuclideList([...nuclideSet]);
+      })
       .catch(e => console.log("Error", e));
   }, []);
 
@@ -44,7 +52,13 @@ export default function Nuclide(props) {
         value={age}
         onChange={handleChange}
         style={{ width: "100%" }}
-      ></MaterialUI.Select>
+      >
+        {nuclideList.map(nuclideName => (
+          <MaterialUI.MenuItem key={nuclideName} value={nuclideName}>
+            {nuclideName}
+          </MaterialUI.MenuItem>
+        ))}
+      </MaterialUI.Select>
     </MaterialUI.FormControl>
   );
 }
