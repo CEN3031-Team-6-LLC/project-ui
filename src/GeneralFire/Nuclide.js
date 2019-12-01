@@ -16,7 +16,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 export default function Nuclide(props) {
-  const { setValue, value } = props;
+  const { setValue, value, icrp } = props;
   const classes = useStyles();
   const [nuclideList, setNuclideList] = React.useState([]);
   const handleChange = e => {
@@ -32,14 +32,22 @@ export default function Nuclide(props) {
         const textArr = JSON.parse(text);
         let nuclideSet = new Set();
         textArr.forEach(nuclidePair => {
-          nuclideSet.add(nuclidePair.isotop);
+          if (icrp) {
+            nuclideSet.add(nuclidePair.nuclide);
+          } else {
+            nuclideSet.add(nuclidePair.isotop);
+          }
         });
         let nuclides = [...nuclideSet];
         nuclides.sort();
         setNuclideList(nuclides);
       })
       .catch(e => console.log("Error", e));
-  }, []);
+  }, [icrp]);
+
+  React.useEffect(() => {
+    if (nuclideList.length > 0) setValue(nuclideList[0]);
+  }, [nuclideList]);
 
   return (
     <MaterialUI.FormControl className={classes.nuclide}>

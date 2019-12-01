@@ -3,27 +3,34 @@ import { configs } from "configs";
 import { RadioButtons } from "CustomWidgets";
 
 const LungClass = props => {
-  const { isotope, onChange, value } = props;
+  const { isotope, onChange, value, icrp } = props;
   const [options, setOptions] = React.useState([]);
   React.useEffect(() => {
-    fetch(
-      `${configs.SERVER_URL}/api/nuclides/getNuclidesLungClasses/${isotope}`
-    )
+    let lungClassUrl = `${configs.SERVER_URL}/api/nuclides/getNuclidesLungClasses/${isotope}`;
+    if (icrp) {
+      lungClassUrl = `${configs.SERVER_URL}/api/nuclides/getNuclidesICRPLungClass/${isotope}`;
+      console.log("lung class url", lungClassUrl);
+    }
+    fetch(lungClassUrl)
       .then(resp => resp.text())
       .then(text => {
-        const textArr = JSON.parse(text);
-        const newOptions = textArr.map(t => ({ value: t, label: t }));
-        console.log("New options", newOptions);
-        setOptions(newOptions);
+        let textArr;
+        if (icrp) {
+          setOptions([{ value: text, label: text }]);
+        } else {
+          textArr = JSON.parse(text);
+          const newOptions = textArr.map(t => ({ value: t, label: t }));
+          setOptions(newOptions);
+        }
       })
       .catch(e => console.log(e));
-  }, [isotope]);
+  }, [isotope, icrp]);
   return (
     <RadioButtons
       title="Lung Class"
       options={options}
       onChange={onChange}
-      value={value}
+      value={options.length > 0 ? options[0].value : ""}
     />
   );
 };

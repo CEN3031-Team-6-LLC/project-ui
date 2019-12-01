@@ -33,6 +33,7 @@ const GeneralFire = props => {
   const [metricImperial, setMetricImperial] = React.useState(metric);
   const [nuclide, setNuclide] = React.useState("Ac-224");
   const [lungClass, setLungClass] = React.useState("");
+  const [icrp, seticrp] = React.useState(true);
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
     fireCloudTop: { error: false, value: "" },
@@ -195,12 +196,13 @@ const GeneralFire = props => {
         }}
       />
 
-      <Nuclide setValue={setNuclide} value={nuclide} />
+      <Nuclide setValue={setNuclide} value={nuclide} icrp={icrp} />
 
       <LungClass
         isotope={nuclide}
         onChange={e => console.log("lunch class", e.target.value)}
         value={lungClass}
+        icrp={icrp}
       />
 
       <MaterialUI.Button
