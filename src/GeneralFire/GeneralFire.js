@@ -5,6 +5,7 @@ import { validateFireFields } from "./helpers";
 import ErrorDialog from "CustomWidgets/ErrorDialog";
 import { KeyStrings } from "../General/KeyStrings";
 import { RadioButtons } from "CustomWidgets";
+import Nuclide from "./Nuclide";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -116,6 +117,32 @@ const GeneralFire = props => {
         }}
       />
 
+      <InputField
+        name="Max Distance"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Max Distance must be greater than 0"
+        unit={lengthUnit}
+        inputValidation={value => value >= 0}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, maxDistance: { ...val } });
+        }}
+      />
+
+      <InputField
+        name="Distance Increment"
+        unitTogglelable={true}
+        type="number"
+        errorMessage="Error: Distance Increment must be greater than 0"
+        unit={lengthUnit}
+        inputValidation={value => value >= 0}
+        setUnit={() => setLengthUnit(lengthUnit === "m" ? "ft" : "m")}
+        onChange={val => {
+          setFieldValues({ ...fieldValues, distanceIncrement: { ...val } });
+        }}
+      />
+
       <RadioButtons
         title="Stability"
         options={[
@@ -133,6 +160,8 @@ const GeneralFire = props => {
           });
         }}
       />
+
+      <Nuclide />
 
       <MaterialUI.Button
         variant="contained"
