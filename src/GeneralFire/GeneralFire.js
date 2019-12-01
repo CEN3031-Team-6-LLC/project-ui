@@ -43,8 +43,6 @@ const GeneralFire = props => {
   };
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [metricImperial, setMetricImperial] = React.useState(metric);
-  const [nuclide, setNuclide] = React.useState("Ac-224");
-  const [lungClass, setLungClass] = React.useState("");
   const [icrp, seticrp] = React.useState(false);
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
@@ -208,12 +206,24 @@ const GeneralFire = props => {
         }}
       />
 
-      <Nuclide setValue={setNuclide} value={nuclide} icrp={icrp} />
+      <Nuclide
+        setValue={nuclidePair => {
+          console.log("first val", nuclidePair);
+          if (nuclidePair !== null) {
+            setFieldValues({
+              ...fieldValues,
+              isotop: nuclidePair.isotop,
+              nuclide: nuclidePair.nuclide
+            });
+          }
+        }}
+        value={icrp ? fieldValues.nuclide : fieldValues.isotop}
+        icrp={icrp}
+      />
 
       <LungClass
-        isotope={nuclide}
+        isotope={icrp ? fieldValues.nuclide : fieldValues.isotop}
         onChange={e => console.log("lunch class", e.target.value)}
-        value={lungClass}
         icrp={icrp}
       />
 
@@ -241,6 +251,7 @@ const GeneralFire = props => {
             console.log("Success", valid);
             // TODO: Send api request here
           } else {
+            console.log("Error message", valid.errorMessage);
             setError({
               status: true,
               title: `Error: You must enter a valid ${KeyStrings[valid.key]}`,
