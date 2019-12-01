@@ -3,7 +3,7 @@ import { configs } from "configs";
 import { RadioButtons } from "CustomWidgets";
 
 const LungClass = props => {
-  const { isotope, onChange, value, icrp } = props;
+  const { isotope, onChange, icrp } = props;
   const [options, setOptions] = React.useState([]);
   React.useEffect(() => {
     let lungClassUrl = `${configs.SERVER_URL}/api/nuclides/getNuclidesLungClasses/${isotope}`;

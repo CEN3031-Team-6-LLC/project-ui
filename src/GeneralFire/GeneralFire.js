@@ -14,6 +14,17 @@ const useStyles = MaterialUI.makeStyles(theme => {
       height: "100%",
       padding: 20,
       overflowY: "scroll"
+    },
+    icrpContainer: {
+      display: "flex",
+      justifyContent: "flex-start",
+      "&>label": {
+        margin: 0,
+        alignItems: "flex-start"
+      }
+    },
+    icrpLabel: {
+      color: "grey"
     }
   };
 });
@@ -21,6 +32,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const GeneralFire = props => {
   const { hidden } = props;
   const classes = useStyles();
+  const theme = MaterialUI.useTheme();
   const metric = {
     length: "m",
     speed: "m/s"
@@ -33,7 +45,7 @@ const GeneralFire = props => {
   const [metricImperial, setMetricImperial] = React.useState(metric);
   const [nuclide, setNuclide] = React.useState("Ac-224");
   const [lungClass, setLungClass] = React.useState("");
-  const [icrp, seticrp] = React.useState(true);
+  const [icrp, seticrp] = React.useState(false);
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
     fireCloudTop: { error: false, value: "" },
@@ -204,6 +216,21 @@ const GeneralFire = props => {
         value={lungClass}
         icrp={icrp}
       />
+
+      <div className={classes.icrpContainer}>
+        <MaterialUI.FormControlLabel
+          classes={{ label: classes.icrpLabel }}
+          value="ICRP"
+          control={
+            <MaterialUI.Switch
+              color="secondary"
+              onChange={() => seticrp(!icrp)}
+            />
+          }
+          label="ICRP"
+          labelPlacement="top"
+        />
+      </div>
 
       <MaterialUI.Button
         variant="contained"
