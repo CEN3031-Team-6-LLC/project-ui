@@ -6,6 +6,7 @@ import ErrorDialog from "CustomWidgets/ErrorDialog";
 import { KeyStrings } from "../General/KeyStrings";
 import { RadioButtons } from "CustomWidgets";
 import Nuclide from "./Nuclide";
+import LungClass from "./LungClass";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -24,6 +25,7 @@ const GeneralFire = props => {
   const [lengthUnit, setLengthUnit] = React.useState("m");
   const [speedUnit, setSpeedUnit] = React.useState("m/s");
   const [nuclide, setNuclide] = React.useState("Ac-224");
+  const [lungClass, setLungClass] = React.useState("");
 
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
@@ -164,6 +166,12 @@ const GeneralFire = props => {
       />
 
       <Nuclide setValue={setNuclide} value={nuclide} />
+
+      <LungClass
+        isotope={nuclide}
+        onChange={e => console.log("lunch class", e.target.value)}
+        value={lungClass}
+      />
 
       <MaterialUI.Button
         variant="contained"
