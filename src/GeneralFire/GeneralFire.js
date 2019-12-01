@@ -23,6 +23,8 @@ const GeneralFire = props => {
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [lengthUnit, setLengthUnit] = React.useState("m");
   const [speedUnit, setSpeedUnit] = React.useState("m/s");
+  const [nuclide, setNuclide] = React.useState("Ac-224");
+
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
     fireCloudTop: { error: false, value: "" },
@@ -161,7 +163,7 @@ const GeneralFire = props => {
         }}
       />
 
-      <Nuclide />
+      <Nuclide setValue={setNuclide} value={nuclide} />
 
       <MaterialUI.Button
         variant="contained"

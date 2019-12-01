@@ -16,9 +16,9 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 export default function Nuclide(props) {
+  const { setValue, value } = props;
   const classes = useStyles();
   const [nuclideList, setNuclideList] = React.useState([]);
-  const [value, setValue] = React.useState("Ac-224");
   const handleChange = e => {
     setValue(e.target.value);
   };
