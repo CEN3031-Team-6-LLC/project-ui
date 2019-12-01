@@ -18,8 +18,10 @@ const useStyles = MaterialUI.makeStyles(theme => {
 export default function Nuclide(props) {
   const classes = useStyles();
   const [nuclideList, setNuclideList] = React.useState([]);
-  const age = 20;
-  const handleChange = e => {};
+  const [value, setValue] = React.useState("H");
+  const handleChange = e => {
+    setValue(e.target.value);
+  };
 
   React.useEffect(() => {
     fetch(`${configs.SERVER_URL}/api/nuclides/getNuclideList`)
@@ -49,7 +51,7 @@ export default function Nuclide(props) {
         variant="outlined"
         labelId="demo-customized-select-label"
         id="demo-customized-select"
-        value={age}
+        value={value}
         onChange={handleChange}
         style={{ width: "100%" }}
       >
