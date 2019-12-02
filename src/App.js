@@ -104,17 +104,19 @@ const App = props => {
               // * These are required exactly as they are. Otherwise it will give a CORS error.
               // * It's a confusing warning that needs to be fixed in api
               let req = {};
-              req.sourceAmount = fireReq.sourceAmount.amount;
-              req.fireCloudTop = fireReq.fireCloudTop.amount;
-              req.windSpeed = fireReq.windSpeed.amount;
-              req.receptorHeight = fireReq.receptorHeight.amount;
-              req.fireRadius = fireReq.fireRadius.amount;
-              req.stability = fireReq.stability;
-              req.maxDistance = 1000;
-              req.distanceIncrement = 1;
-              req.isotop = "H-3";
-              req.nuclide = "H";
-              req.lungClass = "F";
+              req.sourceAmount = fireReq.sourceAmount.value;
+              req.fireCloudTop = fireReq.fireCloudTop.value;
+              req.windSpeed = fireReq.windSpeed.value;
+              req.receptorHeight = fireReq.receptorHeight.value;
+              req.fireRadius = fireReq.fireRadius.value;
+              req.stability = fireReq.stability.value;
+              req.maxDistance = parseFloat(fireReq.maxDistance.value);
+              req.distanceIncrement = parseFloat(
+                fireReq.distanceIncrement.value
+              );
+              req.isotop = fireReq.isotop.value;
+              req.nuclide = fireReq.nuclide.value;
+              req.lungClass = fireReq.lungClass.value;
               req.type = "fire";
 
               post({ body: req, type: "fire" }).then(data => {
@@ -132,11 +134,11 @@ const App = props => {
               // * These are required exactly as they are. Otherwise it will give a CORS error.
               // * It's a confusing warning that needs to be fixed in api
               let req = {};
-              req.sourceAmount = plumeReq.sourceAmount.amount;
-              req.windSpeed = plumeReq.windSpeed.amount;
-              req.receptorHeight = plumeReq.receptorHeight.amount;
-              req.releaseHeight = plumeReq.releaseHeight.amount;
-              req.stability = plumeReq.stability;
+              req.sourceAmount = plumeReq.sourceAmount.value;
+              req.windSpeed = plumeReq.windSpeed.value;
+              req.receptorHeight = plumeReq.receptorHeight.value;
+              req.releaseHeight = plumeReq.releaseHeight.value;
+              req.stability = plumeReq.stability.value;
               req.maxDistance = 1000;
               req.distanceIncrement = 1;
               req.isotop = "H-3";

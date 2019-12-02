@@ -30,9 +30,8 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const GeneralFire = props => {
-  const { hidden } = props;
+  const { onFireClick, hidden } = props;
   const classes = useStyles();
-  const theme = MaterialUI.useTheme();
   const metric = {
     length: "m",
     speed: "m/s"
@@ -254,7 +253,7 @@ const GeneralFire = props => {
           console.log("valid", valid);
           if (valid === true) {
             console.log("Success", valid);
-            // TODO: Send api request here
+            onFireClick(fieldValues);
           } else {
             setError({
               status: true,
