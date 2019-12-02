@@ -3,7 +3,7 @@ import { configs } from "configs";
 import { RadioButtons } from "CustomWidgets";
 
 const LungClass = props => {
-  const { isotope, onChange, icrp } = props;
+  const { isotope, onChange, icrp, value } = props;
   const [options, setOptions] = React.useState([]);
   React.useEffect(() => {
     if (isotope.length > 0) {
@@ -28,12 +28,13 @@ const LungClass = props => {
         .catch(e => console.log("you are the one", e));
     }
   }, [isotope, icrp]);
+
   return (
     <RadioButtons
       title="Lung Class"
       options={options}
       onChange={onChange}
-      value={options.length > 0 ? options[0].value : ""}
+      value={value}
     />
   );
 };

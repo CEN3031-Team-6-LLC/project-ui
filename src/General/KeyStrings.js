@@ -5,5 +5,6 @@ export const KeyStrings = {
   receptorHeight: "Receptor Height",
   fireRadius: "Fire Radius",
   maxDistance: "Max Distance",
-  distanceIncrement: "Distance Increment"
+  distanceIncrement: "Distance Increment",
+  lungClass: "Lung Class"
 };
