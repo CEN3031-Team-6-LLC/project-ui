@@ -4,13 +4,11 @@ import { RadioButtons } from "CustomWidgets";
 
 const LungClass = props => {
   const { isotope, onChange, icrp } = props;
-  console.log("isotop value", isotope);
   const [options, setOptions] = React.useState([]);
   React.useEffect(() => {
     let lungClassUrl = `${configs.SERVER_URL}/api/nuclides/getNuclidesLungClasses/${isotope}`;
     if (icrp) {
       lungClassUrl = `${configs.SERVER_URL}/api/nuclides/getNuclidesICRPLungClass/${isotope}`;
-      console.log("lung class url", lungClassUrl);
     }
     fetch(lungClassUrl)
       .then(resp => resp.text())

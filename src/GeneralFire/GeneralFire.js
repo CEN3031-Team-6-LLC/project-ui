@@ -249,7 +249,6 @@ const GeneralFire = props => {
             console.log("Success", valid);
             // TODO: Send api request here
           } else {
-            console.log("Error message", valid.errorMessage);
             setError({
               status: true,
               title: `Error: You must enter a valid ${KeyStrings[valid.key]}`,
