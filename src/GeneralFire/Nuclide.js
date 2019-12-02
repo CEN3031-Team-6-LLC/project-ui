@@ -16,12 +16,10 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 export default function Nuclide(props) {
-  const { setValue, value, icrp } = props;
+  const { setValue, value } = props;
   const classes = useStyles();
   const [options, setOptions] = React.useState([]);
 
-  console.log("Nuclide value", value);
-  console.log("Nuclide value value", value.value);
   React.useEffect(() => {
     fetch(`${configs.SERVER_URL}/api/nuclides/getNuclideList`)
       .then(resp => {
@@ -39,7 +37,7 @@ export default function Nuclide(props) {
         setOptions(newOptions);
       })
       .catch(e => console.log("Error", e));
-  }, [icrp]);
+  }, []);
 
   React.useEffect(() => {
     if (options.length > 0) setValue(options[0]);

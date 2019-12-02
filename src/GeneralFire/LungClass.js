@@ -20,6 +20,7 @@ const LungClass = props => {
         } else {
           textArr = JSON.parse(text);
           const newOptions = textArr.map(t => ({ value: t, label: t }));
+          console.log("Text arra", textArr);
           setOptions(newOptions);
         }
       })
