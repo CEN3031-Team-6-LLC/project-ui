@@ -41,6 +41,10 @@ export default function Nuclide(props) {
       .catch(e => console.log("Error", e));
   }, [icrp]);
 
+  React.useEffect(() => {
+    if (options.length > 0) setValue(options[0]);
+  }, [options]);
+
   return (
     <MaterialUI.FormControl className={classes.nuclide}>
       <MaterialUI.InputLabel
