@@ -14,7 +14,13 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 const RadioButtons = props => {
   const { title, options, onChange, value } = props;
+
+  const [theOptions, setOptions] = React.useState([]);
   const classes = useStyles();
+
+  React.useEffect(() => {
+    setOptions(options);
+  }, [options]);
   return (
     <MaterialUI.FormControl
       variant="filled"
@@ -27,8 +33,9 @@ const RadioButtons = props => {
         name="gender1"
         value={value}
         onChange={onChange}
+        row
       >
-        {options.map((option, i) => {
+        {theOptions.map((option, i) => {
           return (
             <MaterialUI.FormControlLabel
               key={i}

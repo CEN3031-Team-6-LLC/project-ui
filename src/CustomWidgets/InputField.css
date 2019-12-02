@@ -1,0 +1,3 @@
+.MuiOutlinedInput-root legend {
+  width: calc(8px + var(--label-width) * 0.75) !important;
+}

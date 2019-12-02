@@ -1,10 +1,15 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
+import "./InputField.css";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     textField: {
-      marginBottom: 20
+      "&>label": {
+        background: "white"
+      },
+      marginBottom: 20,
+      background: "white"
     },
     adornment: {
       "&:hover": {
@@ -15,13 +20,17 @@ const useStyles = MaterialUI.makeStyles(theme => {
 });
 
 const InputField = props => {
-  const { placeholder, unit, unitTogglelable, unit2, onChange } = props;
-  const [state, setState] = React.useState(true);
+  const {
+    placeholder,
+    unit,
+    onUnitClick,
+    onChange,
+    error,
+    errorMessage,
+    title,
+    type
+  } = props;
   const classes = useStyles();
-
-  const adornmentClick = () => {
-    setState(!state);
-  };
 
   return (
     <MaterialUI.TextField
@@ -29,14 +38,18 @@ const InputField = props => {
       className={classes.textField}
       placeholder={placeholder}
       onChange={onChange}
+      label={title}
+      type={type}
+      error={error}
+      helperText={error ? errorMessage : ""}
       InputProps={{
         startAdornment: (
           <MaterialUI.InputAdornment
             className={classes.adornment}
-            onClick={unitTogglelable ? adornmentClick : () => {}}
+            onClick={onUnitClick}
             position="start"
           >
-            {state ? unit : unit2}
+            {unit}
           </MaterialUI.InputAdornment>
         )
       }}
