@@ -5,6 +5,7 @@ import LeftControls from "./LeftControls";
 import clsx from "clsx";
 import MainPanel from "./MainPanel/MainPanel";
 import { post } from "./post";
+import { exportData } from './export';
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     app: {
@@ -58,71 +59,133 @@ const App = props => {
     chartData: {},
     tabIndex: "fire"
   });
+
+  const [dataFetched, setDataFetched] = React.useState(false);
+  const [lastReq, setLastReq] = React.useState({});
+  const [boundaries, setBoundary] = React.useState({
+    maxDistance: 0,
+    increment: 0
+  });
+  const onExportClick = () => {
+    // TODO: Add export data fetch here
+    if (!dataFetched || !lastReq) return;
+    exportData(lastReq).then(data => console.log(data));
+  };
+
   return (
     <MaterialUI.ThemeProvider theme={theme}>
       <div className={clsx("App", classes.app)}>
-        <LeftControls
-          className={classes.leftControls}
-          onSwitchTabs={tabIndex => {
-            switch (tabIndex) {
-              case 0: {
-                // fire graph tab
-                setState({ ...state, chartData: {}, tabIndex: "fire" });
-                if (state.previousFireData)
-                  setState({
-                    ...state,
-                    chartData: createData(state.previousFireData),
-                    tabIndex: "fire"
-                  });
-                return;
+        <div className={classes.leftControls}>
+          <LeftControls
+            onSwitchTabs={tabIndex => {
+              switch (tabIndex) {
+                case 0: {
+                  // fire graph tab
+                  setState({ ...state, chartData: {}, tabIndex: "fire" });
+                  if (state.previousFireData)
+                    setState({
+                      ...state,
+                      chartData: createData(state.previousFireData),
+                      tabIndex: "fire"
+                    });
+                  return;
+                }
+                case 1: {
+                  // plume graph tab
+                  setState({ ...state, chartData: {}, tabIndex: "plume" });
+                  if (state.previousPlumeData)
+                    setState({
+                      ...state,
+                      chartData: createData(state.previousPlumeData),
+                      tabIndex: "plume"
+                    });
+                  return;
+                }
+                default: {
+                  // error
+                  throw new Error("No such tab exists!");
+                }
               }
-              case 1: {
-                // plume graph tab
-                setState({ ...state, chartData: {}, tabIndex: "plume" });
-                if (state.previousPlumeData)
-                  setState({
-                    ...state,
-                    chartData: createData(state.previousPlumeData),
-                    tabIndex: "plume"
-                  });
-                return;
-              }
-              default: {
-                // error
-                throw new Error("No such tab exists!");
-              }
+            }}
+            onFireShowGraphClick={fireReq => {
+              // * These are required exactly as they are. Otherwise it will give a CORS error.
+              // * It's a confusing warning that needs to be fixed in api
+              setBoundary({
+                maxDistance: parseFloat(fireReq.maxDistance.value),
+                increment: parseFloat(fireReq.distanceIncrement.value)
+              });
+              let req = {};
+              req.sourceAmount = fireReq.sourceAmount.value;
+              req.fireCloudTop = fireReq.fireCloudTop.value;
+              req.windSpeed = fireReq.windSpeed.value;
+              req.receptorHeight = fireReq.receptorHeight.value;
+              req.fireRadius = fireReq.fireRadius.value;
+              req.stability = fireReq.stability.value;
+              req.maxDistance = parseFloat(fireReq.maxDistance.value);
+              req.distanceIncrement = parseFloat(
+                fireReq.distanceIncrement.value
+              );
+              req.isotop = fireReq.isotop.value;
+              req.nuclide = fireReq.nuclide.value;
+              req.lungClass = fireReq.lungClass.value;
+              req.type = "fire";
+
+              post({ body: req, type: "fire" }).then(data => {
+                // data = createData(data);
+                setState({
+                  ...state,
+                  previousFireData: data,
+                  chartData: createData(data)
+                });
+                setLastReq({ body: req, type: "fire" });
+                setDataFetched(true);
+              });
+            }}
+            onPlumeShowGraphClick={plumeReq => {
+              // * These are required exactly as they are. Otherwise it will give a CORS error.
+              // * It's a confusing warning that needs to be fixed in api
+              let req = {};
+              req.sourceAmount = plumeReq.sourceAmount.value;
+              req.windSpeed = plumeReq.windSpeed.value;
+              req.receptorHeight = plumeReq.receptorHeight.value;
+              req.releaseHeight = plumeReq.releaseHeight.value;
+              req.stability = plumeReq.stability.value;
+              req.maxDistance = 1000;
+              req.distanceIncrement = 1;
+              req.isotop = "H-3";
+              req.nuclide = "H";
+              req.lungClass = "F";
+              req.type = "plume";
+
+              post({ body: req, type: "plume" }).then(data => {
+                // data = createData(data);
+                setState({
+                  ...state,
+                  previousPlumeData: data,
+                  chartData: createData(data)
+                });
+                setLastReq(req);
+                setDataFetched(true);
+              });
+            }}
+          />
+        </div>
+        <div className={classes.mainPanel}>
+          <MainPanel
+            data={
+              state.tabIndex === "fire"
+                ? state.previousFireData
+                : state.previousPlumeData
             }
-          }}
-          onFireShowGraphClick={fireReq => {
-            post({ body: fireReq, type: "fire" }).then(data => {
-              // data = createData(data);
-              setState({
-                ...state,
-                previousFireData: data,
-                chartData: createData(data)
-              });
-            });
-          }}
-          onPlumeShowGraphClick={plumeReq => {
-            post({ body: plumeReq, type: "plume" }).then(data => {
-              // data = createData(data);
-              setState({
-                ...state,
-                previousPlumeData: data,
-                chartData: createData(data)
-              });
-            });
-          }}
-        />
-        <MainPanel
-          className={classes.mainPanel}
-          data={
-            state.tabIndex === "fire"
-              ? state.previousFireData
-              : state.previousPlumeData
-          }
-          chartData={state.chartData}
-        />
+            maxDistance={boundaries.maxDistance}
+            increment={boundaries.increment}
+            dataFetched={dataFetched}
+            setDataFetched={setDataFetched}
+            chartData={state.chartData}
+            lastReq={lastReq}
+            onExportClick={onExportClick}
+          />
+        </div>
       </div>
     </MaterialUI.ThemeProvider>
   );

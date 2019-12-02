@@ -1,5 +1,6 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
+import moment from "moment";
 
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
@@ -12,36 +13,46 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 const DataTable = props => {
   const { data } = props;
-  console.log("The fire data", data);
+  console.log("data", data);
   const classes = useStyles();
   return (
     <MaterialUI.Paper className={classes.datasheet}>
       <MaterialUI.Table aria-label="simple table">
         <MaterialUI.TableHead>
           <MaterialUI.TableRow>
-            <MaterialUI.TableCell>Distance From Source</MaterialUI.TableCell>
+            <MaterialUI.TableCell>Distance From Source (m or ft)</MaterialUI.TableCell>
             <MaterialUI.TableCell align="right">
               Concentration
+            </MaterialUI.TableCell>
+            <MaterialUI.TableCell align="right">
+              Dose (Ci or Bq)
+            </MaterialUI.TableCell>
+            <MaterialUI.TableCell align="right">
+              Arrival Time (h:m:s)
             </MaterialUI.TableCell>
           </MaterialUI.TableRow>
         </MaterialUI.TableHead>
         <MaterialUI.TableBody>
           {data
             ? data.map((d, i) => {
-                if (i % 100 === 0) {
-                  return (
-                    <MaterialUI.TableRow key={i}>
-                      <MaterialUI.TableCell component="th" scope="row">
-                        {d.distance}
-                      </MaterialUI.TableCell>
-                      <MaterialUI.TableCell align="right">
-                        {d.concentration}
-                      </MaterialUI.TableCell>
-                    </MaterialUI.TableRow>
-                  );
-                } else {
-                  return null;
-                }
+                return (
+                  <MaterialUI.TableRow key={d.distance}>
+                    <MaterialUI.TableCell component="th" scope="row">
+                      {d.distance}
+                    </MaterialUI.TableCell>
+                    <MaterialUI.TableCell align="right">
+                      {d.concentration}
+                    </MaterialUI.TableCell>
+                    <MaterialUI.TableCell align="right">
+                      {d.dose}
+                    </MaterialUI.TableCell>
+                    <MaterialUI.TableCell align="right">
+                      {moment(0).set('hours', 0)
+                        .add("seconds", d.arrivalTime)
+                        .format("HH:mm:ss.SSSS")}
+                    </MaterialUI.TableCell>
+                  </MaterialUI.TableRow>
+                );
               })
             : null}
         </MaterialUI.TableBody>
