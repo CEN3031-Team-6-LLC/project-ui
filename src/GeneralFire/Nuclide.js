@@ -18,17 +18,10 @@ const useStyles = MaterialUI.makeStyles(theme => {
 export default function Nuclide(props) {
   const { setValue, value, icrp } = props;
   const classes = useStyles();
-  const [nuclideList, setNuclideList] = React.useState([]);
-  const [isotopList, setIsotopList] = React.useState([]);
-  const [firstVal, setFirstVal] = React.useState(null);
+  const [options, setOptions] = React.useState([]);
 
   console.log("Nuclide value", value);
   console.log("Nuclide value value", value.value);
-
-  React.useEffect(() => {
-    setValue(firstVal);
-  }, [firstVal]);
-
   React.useEffect(() => {
     fetch(`${configs.SERVER_URL}/api/nuclides/getNuclideList`)
       .then(resp => {
@@ -37,19 +30,14 @@ export default function Nuclide(props) {
       .then(text => {
         const textArr = JSON.parse(text);
         let nuclideSet = new Set();
-        let isotopSet = new Set();
         textArr.forEach(nuclidePair => {
-          nuclideSet.add(nuclidePair.nuclide);
-          isotopSet.add(nuclidePair.isotop);
+          nuclideSet.add(nuclidePair);
         });
 
-        setFirstVal(textArr[0]);
-        let nuclides = [...nuclideSet];
-        let isotops = [...isotopSet];
-        nuclides.sort();
-        isotops.sort();
-        setNuclideList(nuclides);
-        setIsotopList(isotops);
+        // TODO: Figure out why this isn't sorting correctly
+        let newOptions = [...nuclideSet];
+        newOptions.sort((a, b) => a.isotop.localeCompare(b.isotop));
+        setOptions(newOptions);
       })
       .catch(e => console.log("Error", e));
   }, [icrp]);
@@ -63,45 +51,25 @@ export default function Nuclide(props) {
         Nuclides
       </MaterialUI.InputLabel>
 
-      {icrp ? (
-        <div>
-          <MaterialUI.Select
-            variant="outlined"
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
-            value={value.value}
-            onChange={() => {}}
-            style={{ width: "100%" }}
-          >
-            {nuclideList.map(nuclide => {
-              return (
-                <MaterialUI.MenuItem key={nuclide} value={nuclide}>
-                  {nuclide}
-                </MaterialUI.MenuItem>
-              );
-            })}
-          </MaterialUI.Select>
-        </div>
-      ) : (
-        <div>
-          <MaterialUI.Select
-            variant="outlined"
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
-            value={value.value}
-            onChange={() => {}}
-            style={{ width: "100%" }}
-          >
-            {isotopList.map(isotop => {
-              return (
-                <MaterialUI.MenuItem key={isotop} value={isotop}>
-                  {isotop}
-                </MaterialUI.MenuItem>
-              );
-            })}
-          </MaterialUI.Select>
-        </div>
-      )}
+      <MaterialUI.Select
+        variant="outlined"
+        labelId="demo-customized-select-label"
+        id="demo-customized-select"
+        value={value.value}
+        onChange={e => {
+          const value = e.target.value;
+          console.log("new value", value);
+        }}
+        style={{ width: "100%" }}
+      >
+        {options.map(option => {
+          return (
+            <MaterialUI.MenuItem key={option.isotop} value={option.isotop}>
+              {option.isotop}
+            </MaterialUI.MenuItem>
+          );
+        })}
+      </MaterialUI.Select>
     </MaterialUI.FormControl>
   );
 }

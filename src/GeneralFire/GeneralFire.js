@@ -208,16 +208,9 @@ const GeneralFire = props => {
 
       <Nuclide
         setValue={nuclidePair => {
-          console.log("first val", nuclidePair);
-          if (nuclidePair !== null) {
-            setFieldValues({
-              ...fieldValues,
-              isotop: { error: false, value: nuclidePair.isotop },
-              nuclide: { error: false, value: nuclidePair.nuclide }
-            });
-          }
+          setFieldValues({ ...fieldValues, isotop: { ...nuclidePair } });
         }}
-        value={icrp ? fieldValues.nuclide : fieldValues.isotop}
+        value={fieldValues.isotop}
         icrp={icrp}
       />
 
