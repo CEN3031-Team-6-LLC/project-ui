@@ -28,7 +28,9 @@ const MainPanel = props => {
     dataFetched,
     setDataFetched,
     lastReq,
-    onExportClick
+    onExportClick,
+    maxDistance,
+    increment
   } = props;
   const classes = useStyles();
   const [showChart, setShowChart] = React.useState(false);
@@ -48,14 +50,14 @@ const MainPanel = props => {
             setShowChart(e.target.checked);
           }}
         />
-        <MaterialUI.Tooltip title="Export Raw Data">
+        {!showChart ? (<MaterialUI.Tooltip title="Export Raw Data">
           <MaterialUI.Button
             onClick={() => onExportClick(lastReq)}
             className={classes.fileExport}
           >
             <FontAwesomeIcon icon={faFileExport} />
           </MaterialUI.Button>
-        </MaterialUI.Tooltip>
+        </MaterialUI.Tooltip>) : (<span></span>)}
       </div>
 
       {showChart ? (
@@ -75,19 +77,20 @@ const MainPanel = props => {
                   type: "logarithmic",
                   position: "left",
                   ticks: {
-                    min: 1, //minimum tick
-                    max: 10000, //maximum tick
+                    min: increment || 0, //minimum tick
+                    max: maxDistance || 10000, //maximum tick
                     callback: function(value, index, values) {
                       return Number(value.toString());
                     }
                   },
                   afterBuildTicks: function(chartObj) {
                     chartObj.ticks = [];
-                    chartObj.ticks.push(1);
-                    chartObj.ticks.push(10);
-                    chartObj.ticks.push(100);
-                    chartObj.ticks.push(1000);
-                    chartObj.ticks.push(10000);
+                    var curInc = increment;
+                    while (curInc < maxDistance) {
+                      chartObj.ticks.push(curInc);
+                      curInc *= 10;
+                    }
+                    chartObj.ticks.push(maxDistance);
                   }
                 }
               ]

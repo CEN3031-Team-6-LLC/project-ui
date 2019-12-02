@@ -20,9 +20,15 @@ const DataTable = props => {
       <MaterialUI.Table aria-label="simple table">
         <MaterialUI.TableHead>
           <MaterialUI.TableRow>
-            <MaterialUI.TableCell>Distance From Source</MaterialUI.TableCell>
+            <MaterialUI.TableCell>Distance From Source (m or ft)</MaterialUI.TableCell>
             <MaterialUI.TableCell align="right">
               Concentration
+            </MaterialUI.TableCell>
+            <MaterialUI.TableCell align="right">
+              Dose (Ci or Bq)
+            </MaterialUI.TableCell>
+            <MaterialUI.TableCell align="right">
+              Arrival Time (h:m:s)
             </MaterialUI.TableCell>
           </MaterialUI.TableRow>
         </MaterialUI.TableHead>
@@ -41,9 +47,9 @@ const DataTable = props => {
                       {d.dose}
                     </MaterialUI.TableCell>
                     <MaterialUI.TableCell align="right">
-                      {moment()
+                      {moment(0).set('hours', 0)
                         .add("seconds", d.arrivalTime)
-                        .format("HH:mm:ss")}
+                        .format("HH:mm:ss.SSSS")}
                     </MaterialUI.TableCell>
                   </MaterialUI.TableRow>
                 );

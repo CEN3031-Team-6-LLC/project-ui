@@ -5,6 +5,7 @@ import LeftControls from "./LeftControls";
 import clsx from "clsx";
 import MainPanel from "./MainPanel/MainPanel";
 import { post } from "./post";
+import { exportData } from './export';
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     app: {
@@ -61,8 +62,14 @@ const App = props => {
 
   const [dataFetched, setDataFetched] = React.useState(false);
   const [lastReq, setLastReq] = React.useState({});
-  const onExportClick = lastReq => {
+  const [boundaries, setBoundary] = React.useState({
+    maxDistance: 0,
+    increment: 0
+  });
+  const onExportClick = () => {
     // TODO: Add export data fetch here
+    if (!dataFetched || !lastReq) return;
+    exportData(lastReq).then(data => console.log(data));
   };
 
   return (
@@ -103,6 +110,10 @@ const App = props => {
             onFireShowGraphClick={fireReq => {
               // * These are required exactly as they are. Otherwise it will give a CORS error.
               // * It's a confusing warning that needs to be fixed in api
+              setBoundary({
+                maxDistance: parseFloat(fireReq.maxDistance.value),
+                increment: parseFloat(fireReq.distanceIncrement.value)
+              });
               let req = {};
               req.sourceAmount = fireReq.sourceAmount.value;
               req.fireCloudTop = fireReq.fireCloudTop.value;
@@ -126,7 +137,7 @@ const App = props => {
                   previousFireData: data,
                   chartData: createData(data)
                 });
-                setLastReq(req);
+                setLastReq({ body: req, type: "fire" });
                 setDataFetched(true);
               });
             }}
@@ -166,6 +177,8 @@ const App = props => {
                 ? state.previousFireData
                 : state.previousPlumeData
             }
+            maxDistance={boundaries.maxDistance}
+            increment={boundaries.increment}
             dataFetched={dataFetched}
             setDataFetched={setDataFetched}
             chartData={state.chartData}
