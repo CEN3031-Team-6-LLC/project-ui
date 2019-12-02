@@ -223,7 +223,6 @@ const GeneralFire = props => {
         isotope={icrp ? fieldValues.nuclide.value : fieldValues.isotop.value}
         onChange={e => {
           const value = e.target.value;
-          console.log("changing", value);
           setFieldValues({
             ...fieldValues,
             lungClass: { error: false, value: value }

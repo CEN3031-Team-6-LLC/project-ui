@@ -29,6 +29,12 @@ const LungClass = props => {
     }
   }, [isotope, icrp]);
 
+  React.useEffect(() => {
+    if (icrp) {
+      onChange({ target: { value: options[0].value } });
+    }
+  }, [options]);
+
   return (
     <RadioButtons
       title="Lung Class"
