@@ -208,7 +208,11 @@ const GeneralFire = props => {
 
       <Nuclide
         setValue={nuclidePair => {
-          setFieldValues({ ...fieldValues, isotop: { ...nuclidePair } });
+          setFieldValues({
+            ...fieldValues,
+            isotop: { error: false, value: nuclidePair.isotop },
+            nuclide: { error: false, value: nuclidePair.nuclide }
+          });
         }}
         value={fieldValues.isotop}
         icrp={icrp}

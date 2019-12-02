@@ -34,7 +34,6 @@ export default function Nuclide(props) {
           nuclideSet.add(nuclidePair);
         });
 
-        // TODO: Figure out why this isn't sorting correctly
         let newOptions = [...nuclideSet];
         newOptions.sort((a, b) => a.isotop.localeCompare(b.isotop));
         setOptions(newOptions);
@@ -58,7 +57,8 @@ export default function Nuclide(props) {
         value={value.value}
         onChange={e => {
           const value = e.target.value;
-          console.log("new value", value);
+          const isotopPair = options.find(op => op.isotop === value);
+          setValue(isotopPair);
         }}
         style={{ width: "100%" }}
       >
