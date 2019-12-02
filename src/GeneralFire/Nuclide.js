@@ -22,7 +22,8 @@ export default function Nuclide(props) {
   const [isotopList, setIsotopList] = React.useState([]);
   const [firstVal, setFirstVal] = React.useState(null);
 
-  console.log("value", value);
+  console.log("Nuclide value", value);
+  console.log("Nuclide value value", value.value);
 
   React.useEffect(() => {
     setValue(firstVal);
@@ -61,26 +62,17 @@ export default function Nuclide(props) {
       >
         Nuclides
       </MaterialUI.InputLabel>
-      <MaterialUI.Select
-        variant="outlined"
-        labelId="demo-customized-select-label"
-        id="demo-customized-select"
-        value={icrp ? value.nuclide : value.isotop}
-        onChange={() => {}}
-        style={{ width: "100%" }}
-      >
-        {icrp ? (
-          <div>
-            {isotopList.map(isotop => {
-              return (
-                <MaterialUI.MenuItem key={isotop} value={isotop}>
-                  {isotop}
-                </MaterialUI.MenuItem>
-              );
-            })}
-          </div>
-        ) : (
-          <div>
+
+      {icrp ? (
+        <div>
+          <MaterialUI.Select
+            variant="outlined"
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            value={value.value}
+            onChange={() => {}}
+            style={{ width: "100%" }}
+          >
             {nuclideList.map(nuclide => {
               return (
                 <MaterialUI.MenuItem key={nuclide} value={nuclide}>
@@ -88,9 +80,28 @@ export default function Nuclide(props) {
                 </MaterialUI.MenuItem>
               );
             })}
-          </div>
-        )}
-      </MaterialUI.Select>
+          </MaterialUI.Select>
+        </div>
+      ) : (
+        <div>
+          <MaterialUI.Select
+            variant="outlined"
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            value={value.value}
+            onChange={() => {}}
+            style={{ width: "100%" }}
+          >
+            {isotopList.map(isotop => {
+              return (
+                <MaterialUI.MenuItem key={isotop} value={isotop}>
+                  {isotop}
+                </MaterialUI.MenuItem>
+              );
+            })}
+          </MaterialUI.Select>
+        </div>
+      )}
     </MaterialUI.FormControl>
   );
 }

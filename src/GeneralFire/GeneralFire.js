@@ -212,8 +212,8 @@ const GeneralFire = props => {
           if (nuclidePair !== null) {
             setFieldValues({
               ...fieldValues,
-              isotop: nuclidePair.isotop,
-              nuclide: nuclidePair.nuclide
+              isotop: { error: false, value: nuclidePair.isotop },
+              nuclide: { error: false, value: nuclidePair.nuclide }
             });
           }
         }}
