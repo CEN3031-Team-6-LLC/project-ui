@@ -5,6 +5,7 @@ import moment from "moment";
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     datasheet: {
+      overflowY: "scroll",
       maxHeight: 450
     }
   };
@@ -16,7 +17,7 @@ const DataTable = props => {
   const classes = useStyles();
   return (
     <MaterialUI.Paper className={classes.datasheet}>
-      <MaterialUI.Table aria-label="simple table">
+      <MaterialUI.Table stickyHeader aria-label="simple table">
         <MaterialUI.TableHead>
           <MaterialUI.TableRow>
             <MaterialUI.TableCell>
