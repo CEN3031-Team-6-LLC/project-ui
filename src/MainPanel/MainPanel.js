@@ -92,7 +92,7 @@ const MainPanel = props => {
                     var curInc = increment;
                     while (curInc < maxDistance) {
                       chartObj.ticks.push(curInc);
-                      curInc *= 1;
+                      curInc *= 2;
                     }
                     chartObj.ticks.push(maxDistance);
                   }
