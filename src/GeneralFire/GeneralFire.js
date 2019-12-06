@@ -12,8 +12,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
   return {
     generalFire: {
       height: "100%",
-      padding: 20,
-      overflowY: "scroll"
+      padding: 20
     },
     icrpContainer: {
       display: "flex",
