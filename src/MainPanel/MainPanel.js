@@ -90,9 +90,11 @@ const MainPanel = props => {
                   afterBuildTicks: function(chartObj) {
                     chartObj.ticks = [];
                     var curInc = increment;
+                    var base = Math.ceil(Math.exp(Math.log(maxDistance)/10));
+                    base = base > 1 ? base : 2;
                     while (curInc < maxDistance) {
                       chartObj.ticks.push(curInc);
-                      curInc *= 2;
+                      curInc *= base;
                     }
                     chartObj.ticks.push(maxDistance);
                   }
