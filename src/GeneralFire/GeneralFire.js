@@ -54,7 +54,8 @@ const GeneralFire = props => {
     distanceIncrement: { error: false, value: "" },
     isotop: { error: false, value: "" },
     nuclide: { error: false, value: "" },
-    lungClass: { error: false, value: "" }
+    lungClass: { error: false, value: "" },
+    unitSystem: "metric"
   });
   const [error, setError] = React.useState({
     status: false,
@@ -82,13 +83,15 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Fire Cloud Top must be greater than 0"
-        unit={metricImperial.length}
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
         inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        setUnit={() => {
+          if (fieldValues.unitSystem === "metric") {
+            setFieldValues({ ...fieldValues, unitSystem: "imperial" });
+          } else {
+            setFieldValues({ ...fieldValues, unitSystem: "metric" });
+          }
+        }}
         onChange={val => {
           setFieldValues({ ...fieldValues, fireCloudTop: { ...val } });
         }}

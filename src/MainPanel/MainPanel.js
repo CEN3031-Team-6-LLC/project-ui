@@ -81,7 +81,7 @@ const MainPanel = props => {
                   type: "logarithmic",
                   position: "left",
                   ticks: {
-                    min: increment || 0, //minimum tick
+                    min: 1, //minimum tick
                     max: maxDistance || 10000, //maximum tick
                     callback: function(value, index, values) {
                       return Number(value.toString());
@@ -92,7 +92,7 @@ const MainPanel = props => {
                     var curInc = increment;
                     while (curInc < maxDistance) {
                       chartObj.ticks.push(curInc);
-                      curInc *= 10;
+                      curInc *= 1;
                     }
                     chartObj.ticks.push(maxDistance);
                   }
