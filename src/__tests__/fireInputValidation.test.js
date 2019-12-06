@@ -1,6 +1,8 @@
 import { validateFireBody } from "../GeneralFire/validateFireBody";
 
 describe("Fire Input Validation", () => {
+  
+  
   test("expect sourceAmount to exists", () => {
     const req = {};
     expect(validateFireBody(req)).toEqual({
