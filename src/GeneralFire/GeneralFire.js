@@ -157,9 +157,15 @@ const GeneralFire = props => {
         name="Max Distance"
         unitTogglelable={true}
         type="number"
-        errorMessage="Error: Max Distance must be greater than 0"
+        errorMessage="Error: Max Distance must be greater than 0 and greater than distance increment"
         unit={metricImperial.length}
-        inputValidation={value => value >= 0}
+        inputValidation={value => {
+          if (fieldValues.distanceIncrement.value === "") {
+            return value >= 0;
+          } else {
+            return value >= parseFloat(fieldValues.distanceIncrement.value);
+          }
+        }}
         setUnit={() =>
           setMetricImperial(
             metricImperial.length === "m" ? { ...imperial } : { ...metric }
@@ -174,9 +180,18 @@ const GeneralFire = props => {
         name="Distance Increment"
         unitTogglelable={true}
         type="number"
-        errorMessage="Error: Distance Increment must be greater than 0"
+        errorMessage="Error: Distance Increment must be greater than 0 and less than max distance"
         unit={metricImperial.length}
-        inputValidation={value => value >= 0}
+        minVal={1}
+        inputValidation={value => {
+          if (fieldValues.maxDistance.value === "") {
+            return value >= 1;
+          } else {
+            return (
+              1 <= value && value <= parseFloat(fieldValues.maxDistance.value)
+            );
+          }
+        }}
         setUnit={() =>
           setMetricImperial(
             metricImperial.length === "m" ? { ...imperial } : { ...metric }

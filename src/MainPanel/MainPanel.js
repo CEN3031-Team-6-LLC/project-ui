@@ -50,14 +50,18 @@ const MainPanel = props => {
             setShowChart(e.target.checked);
           }}
         />
-        {!showChart ? (<MaterialUI.Tooltip title="Export Raw Data">
-          <MaterialUI.Button
-            onClick={() => onExportClick(lastReq)}
-            className={classes.fileExport}
-          >
-            <FontAwesomeIcon icon={faFileExport} />
-          </MaterialUI.Button>
-        </MaterialUI.Tooltip>) : (<span></span>)}
+        {!showChart ? (
+          <MaterialUI.Tooltip title="Export Raw Data">
+            <MaterialUI.Button
+              onClick={() => onExportClick(lastReq)}
+              className={classes.fileExport}
+            >
+              <FontAwesomeIcon icon={faFileExport} />
+            </MaterialUI.Button>
+          </MaterialUI.Tooltip>
+        ) : (
+          <span></span>
+        )}
       </div>
 
       {showChart ? (
