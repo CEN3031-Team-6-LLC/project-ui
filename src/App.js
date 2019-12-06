@@ -5,7 +5,7 @@ import LeftControls from "./LeftControls";
 import clsx from "clsx";
 import MainPanel from "./MainPanel/MainPanel";
 import { post } from "./post";
-import { exportData } from './export';
+import { exportData } from "./export";
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     app: {
@@ -128,6 +128,7 @@ const App = props => {
               req.isotop = fireReq.isotop.value;
               req.nuclide = fireReq.nuclide.value;
               req.lungClass = fireReq.lungClass.value;
+              req.unitSystem = fireReq.unitSystem;
               req.type = "fire";
 
               post({ body: req, type: "fire" }).then(data => {
