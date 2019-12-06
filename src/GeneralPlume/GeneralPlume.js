@@ -7,7 +7,6 @@ const useStyles = MaterialUI.makeStyles(theme => {
     generalPlume: {
       height: "100%",
       padding: 20,
-      overflowY: "scroll",
       background: "white"
     }
   };
