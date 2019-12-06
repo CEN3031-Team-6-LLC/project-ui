@@ -6,7 +6,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
   return {
     datasheet: {
       overflowY: "scroll",
-      maxHeight: 450
+      maxHeight: "100%"
     }
   };
 });
