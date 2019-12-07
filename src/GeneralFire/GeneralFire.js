@@ -12,8 +12,7 @@ const useStyles = MaterialUI.makeStyles(theme => {
   return {
     generalFire: {
       height: "100%",
-      padding: 20,
-      overflowY: "scroll"
+      padding: 20
     },
     icrpContainer: {
       display: "flex",
@@ -41,7 +40,6 @@ const GeneralFire = props => {
     speed: "mph"
   };
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
-  const [metricImperial, setMetricImperial] = React.useState(metric);
   const [icrp, seticrp] = React.useState(false);
   const [fieldValues, setFieldValues] = React.useState({
     sourceAmount: { error: false, value: "" },
@@ -54,13 +52,22 @@ const GeneralFire = props => {
     distanceIncrement: { error: false, value: "" },
     isotop: { error: false, value: "" },
     nuclide: { error: false, value: "" },
-    lungClass: { error: false, value: "" }
+    lungClass: { error: false, value: "" },
+    unitSystem: "metric"
   });
   const [error, setError] = React.useState({
     status: false,
     title: "",
     message: ""
   });
+
+  const toggleUnit = () => {
+    if (fieldValues.unitSystem === "metric") {
+      setFieldValues({ ...fieldValues, unitSystem: "imperial" });
+    } else {
+      setFieldValues({ ...fieldValues, unitSystem: "metric" });
+    }
+  };
 
   return (
     <div className={classes.generalFire} hidden={hidden}>
@@ -82,13 +89,9 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Fire Cloud Top must be greater than 0"
-        unit={metricImperial.length}
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
         inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, fireCloudTop: { ...val } });
         }}
@@ -99,21 +102,19 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage={`Error: Wind Speed must be between ${
-          metricImperial.speed === "m/s" ? "0.1 and 50 m/s" : "0.2 and 111 mph"
+          fieldValues.unitSystem === "metric"
+            ? "0.1 and 50 m/s"
+            : "0.2 and 111 mph"
         }`}
-        unit={metricImperial.speed}
+        unit={fieldValues.unitSystem === "metric" ? "m/s" : "mph"}
         inputValidation={value => {
-          if (metricImperial.speed === "m/s") {
+          if (fieldValues.unitSystem === "m/s") {
             return 0 <= value && value <= 50;
           } else {
             return 0 <= value && value <= 111;
           }
         }}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.speed === "m/s" ? { ...imperial } : { ...metric }
-          )
-        }
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, windSpeed: { ...val } });
         }}
@@ -124,13 +125,9 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Receptor Height must be greater than 0"
-        unit={metricImperial.length}
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
         inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, receptorHeight: { ...val } });
         }}
@@ -141,13 +138,9 @@ const GeneralFire = props => {
         unitTogglelable={true}
         type="number"
         errorMessage="Error: Fire Radius must be greater than 0"
-        unit={metricImperial.length}
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
         inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, fireRadius: { ...val } });
         }}
@@ -157,14 +150,16 @@ const GeneralFire = props => {
         name="Max Distance"
         unitTogglelable={true}
         type="number"
-        errorMessage="Error: Max Distance must be greater than 0"
-        unit={metricImperial.length}
-        inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        errorMessage="Error: Max Distance must be greater than 0 and greater than distance increment"
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
+        inputValidation={value => {
+          if (fieldValues.distanceIncrement.value === "") {
+            return value >= 0;
+          } else {
+            return value >= parseFloat(fieldValues.distanceIncrement.value);
+          }
+        }}
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, maxDistance: { ...val } });
         }}
@@ -174,14 +169,19 @@ const GeneralFire = props => {
         name="Distance Increment"
         unitTogglelable={true}
         type="number"
-        errorMessage="Error: Distance Increment must be greater than 0"
-        unit={metricImperial.length}
-        inputValidation={value => value >= 0}
-        setUnit={() =>
-          setMetricImperial(
-            metricImperial.length === "m" ? { ...imperial } : { ...metric }
-          )
-        }
+        errorMessage="Error: Distance Increment must be greater than 0 and less than max distance"
+        unit={fieldValues.unitSystem === "metric" ? "m" : "ft"}
+        minVal={1}
+        inputValidation={value => {
+          if (fieldValues.maxDistance.value === "") {
+            return value >= 1;
+          } else {
+            return (
+              1 <= value && value <= parseFloat(fieldValues.maxDistance.value)
+            );
+          }
+        }}
+        setUnit={toggleUnit}
         onChange={val => {
           setFieldValues({ ...fieldValues, distanceIncrement: { ...val } });
         }}
@@ -250,9 +250,7 @@ const GeneralFire = props => {
         variant="contained"
         onClick={() => {
           const valid = validateFireFields(fieldValues);
-          console.log("valid", valid);
           if (valid === true) {
-            console.log("Success", valid);
             onFireClick(fieldValues);
           } else {
             setError({

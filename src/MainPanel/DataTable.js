@@ -5,8 +5,8 @@ import moment from "moment";
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     datasheet: {
-      maxHeight: 450,
-      overflowY: "scroll"
+      overflowY: "scroll",
+      maxHeight: "100%"
     }
   };
 });
@@ -17,10 +17,12 @@ const DataTable = props => {
   const classes = useStyles();
   return (
     <MaterialUI.Paper className={classes.datasheet}>
-      <MaterialUI.Table aria-label="simple table">
+      <MaterialUI.Table stickyHeader aria-label="simple table">
         <MaterialUI.TableHead>
           <MaterialUI.TableRow>
-            <MaterialUI.TableCell>Distance From Source (m or ft)</MaterialUI.TableCell>
+            <MaterialUI.TableCell>
+              Distance From Source (m or ft)
+            </MaterialUI.TableCell>
             <MaterialUI.TableCell align="right">
               Concentration
             </MaterialUI.TableCell>
@@ -47,7 +49,8 @@ const DataTable = props => {
                       {d.dose}
                     </MaterialUI.TableCell>
                     <MaterialUI.TableCell align="right">
-                      {moment(0).set('hours', 0)
+                      {moment(0)
+                        .set("hours", 0)
                         .add("seconds", d.arrivalTime)
                         .format("HH:mm:ss.SSSS")}
                     </MaterialUI.TableCell>
