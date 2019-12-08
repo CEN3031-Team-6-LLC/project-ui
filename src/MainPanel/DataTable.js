@@ -13,7 +13,6 @@ const useStyles = MaterialUI.makeStyles(theme => {
 
 const DataTable = props => {
   const { data } = props;
-  console.log("data", data);
   const classes = useStyles();
   return (
     <MaterialUI.Paper className={classes.datasheet}>

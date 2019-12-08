@@ -192,7 +192,6 @@ const GeneralFire = props => {
         ]}
         value={fieldValues.stability.value}
         onChange={e => {
-          console.log("value", e.currentTarget.value);
           setFieldValues({
             ...fieldValues,
             stability: { error: false, value: e.currentTarget.value }

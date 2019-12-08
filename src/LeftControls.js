@@ -34,7 +34,6 @@ const LeftControls = props => {
   const leftControlRef = React.useRef();
 
   const handleChange = (event, newValue) => {
-    console.log("changing", newValue);
     onSwitchTabs(newValue);
     setValue(newValue);
   };

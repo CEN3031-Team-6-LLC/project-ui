@@ -41,6 +41,7 @@ export default function Nuclide(props) {
 
   React.useEffect(() => {
     if (options.length > 0) setValue(options[0]);
+    // eslint-disable-next-line
   }, [options]);
 
   return (
