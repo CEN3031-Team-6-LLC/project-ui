@@ -67,8 +67,8 @@ const App = props => {
     increment: 0
   });
   const onExportClick = () => {
-    // TODO: Add export data fetch here
-    if (!dataFetched || !lastReq) return;
+
+    if (!lastReq) return;
     exportData(lastReq).then(data => console.log(data));
   };
 
