@@ -1,6 +1,7 @@
 import React from "react";
 import { configs } from "configs";
 import { RadioButtons } from "CustomWidgets";
+import * as MaterialUI from '@material-ui/core';
 
 const LungClass = props => {
   const { isotope, onChange, icrp, value } = props;
@@ -33,15 +34,22 @@ const LungClass = props => {
     if (icrp) {
       onChange({ target: { value: options[0].value } });
     }
-  }, [options]);
+  }, [icrp, onChange, options]);
 
   return (
-    <RadioButtons
-      title="Lung Class"
-      options={options}
-      onChange={onChange}
-      value={value}
-    />
+    <React.Fragment>
+      {
+        options.length > 0 ? 
+          <RadioButtons
+          title="Lung Class"
+          options={options}
+          onChange={onChange}
+          value={value}
+        /> : <MaterialUI.CircularProgress color="secondary"/>
+        
+      }
+    </React.Fragment>
+
   );
 };
 

@@ -31,7 +31,8 @@ const InputField = props => {
     } else {
       setError(true);
     }
-  }, [value]);
+    // eslint-disable-next-line
+  }, []);
 
   React.useEffect(() => {
     onChange({ error, value });

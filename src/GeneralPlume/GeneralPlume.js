@@ -35,15 +35,6 @@ const GeneralPlume = props => {
   const { onPlumeClick, hidden } = props;
   const classes = useStyles();
 
-  const metric = {
-    length: "m",
-    speed: "m/s"
-  };
-  const imperial = {
-    length: "ft",
-    speed: "mph"
-  };
-
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [icrp, seticrp] = React.useState(false);
   const [fieldValues, setFieldValues] = React.useState({
