@@ -18,6 +18,8 @@ const useStyles = MaterialUI.makeStyles(theme => {
 export default function Nuclide(props) {
   const { setValue, value } = props;
   const classes = useStyles();
+  const formRef = React.useRef();
+  const [title, setTitle] = React.useState('Nuclides');
   const [options, setOptions] = React.useState([]);
 
   React.useEffect(() => {
@@ -44,13 +46,30 @@ export default function Nuclide(props) {
     // eslint-disable-next-line
   }, [options]);
 
+  React.useEffect(() => {
+    const onResize = e => {
+      const nuclideRect = formRef.current.getBoundingClientRect();
+      if (nuclideRect.width < 280) {
+        setTitle("");
+      } else {
+        setTitle("Nuclides")
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+
+    }
+  }, []);
+
+
   return (
-    <MaterialUI.FormControl className={classes.nuclide}>
+    <MaterialUI.FormControl ref={formRef} className={classes.nuclide}>
       <MaterialUI.InputLabel
         className={classes.label}
         id="demo-customized-select-label"
       >
-        Nuclides
+        {title}
       </MaterialUI.InputLabel>
 
       <MaterialUI.Select
