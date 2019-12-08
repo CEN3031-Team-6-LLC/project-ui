@@ -67,7 +67,6 @@ const App = props => {
     increment: 0
   });
   const onExportClick = () => {
-
     if (!lastReq) return;
     exportData(lastReq).then(data => console.log(data));
   };
