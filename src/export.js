@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
+
 import { configs } from "./configs";
 import moment from 'moment';
 

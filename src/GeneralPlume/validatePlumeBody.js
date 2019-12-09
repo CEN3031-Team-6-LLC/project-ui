@@ -1,3 +1,10 @@
+/**
+ *  Author: Jeremy Green
+ * 
+ *  Description: 
+ * 
+ */
+
 export const validatePlumeBody = req => {
     const keysExpected = [
       "maxDistance",

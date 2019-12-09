@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
+
 import React from "react";
 import * as ChartJS from "react-chartjs-2";
 import * as MaterialUI from "@material-ui/core";

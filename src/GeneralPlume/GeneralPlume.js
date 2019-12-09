@@ -1,3 +1,11 @@
+/**
+ *  Author: Jeremy Green
+ * 
+ *  Description: This is a validation middleware for export and calculate endpoints.
+ * 
+ */
+
+
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
 //import * as CustomWidgets from "../CustomWidgets";

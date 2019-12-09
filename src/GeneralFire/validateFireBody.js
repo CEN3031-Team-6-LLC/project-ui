@@ -1,3 +1,9 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
 export const validateFireBody = req => {
   const keysExpected = [
     "sourceAmount",

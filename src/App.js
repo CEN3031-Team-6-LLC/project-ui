@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
+
 import React from "react";
 import "./App.css";
 import * as MaterialUI from "@material-ui/core";

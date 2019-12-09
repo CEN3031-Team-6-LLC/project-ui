@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz and Jeremy Green
+ * 
+ *  Description: 
+ * 
+ */
+
 export const validateFireFields = fieldValues => {
   const keys = Object.keys(fieldValues);
 

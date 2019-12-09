@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
+
 import React from "react";
 import * as CustomWidgets from "../CustomWidgets";
 import { PropTypes } from "prop-types";

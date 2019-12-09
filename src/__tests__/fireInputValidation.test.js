@@ -1,3 +1,10 @@
+/**
+ *  Author: Lester G Dela Cruz
+ * 
+ *  Description: 
+ * 
+ */
+
 import { validateFireBody } from "../GeneralFire/validateFireBody";
 
 describe("Fire Input Validation", () => {
