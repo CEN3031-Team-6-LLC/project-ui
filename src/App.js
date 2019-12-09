@@ -182,10 +182,6 @@ const App = props => {
 
 
 
-
-
-
-
           />
         </div>
         <div className={classes.mainPanel}>
