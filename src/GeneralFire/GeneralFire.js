@@ -31,7 +31,6 @@ const useStyles = MaterialUI.makeStyles(theme => {
 const GeneralFire = props => {
   const { onFireClick, hidden } = props;
   const classes = useStyles();
-
   const [sourceUnit, setSourceUnit] = React.useState("Ci");
   const [icrp, seticrp] = React.useState(false);
   const [fieldValues, setFieldValues] = React.useState({
