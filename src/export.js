@@ -22,9 +22,10 @@ export const exportData = ({ body, type }) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        accept('Exporting')
       }))
       .catch(e => {
-        reject();
+        reject(e);
       });
   });
 };

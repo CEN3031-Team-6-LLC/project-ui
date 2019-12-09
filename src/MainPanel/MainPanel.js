@@ -50,14 +50,18 @@ const MainPanel = props => {
             setShowChart(e.target.checked);
           }}
         />
-        {!showChart ? (<MaterialUI.Tooltip title="Export Raw Data">
-          <MaterialUI.Button
-            onClick={() => onExportClick(lastReq)}
-            className={classes.fileExport}
-          >
-            <FontAwesomeIcon icon={faFileExport} />
-          </MaterialUI.Button>
-        </MaterialUI.Tooltip>) : (<span></span>)}
+        {!showChart ? (
+          <MaterialUI.Tooltip title="Export Raw Data">
+            <MaterialUI.Button
+              onClick={() => onExportClick(lastReq)}
+              className={classes.fileExport}
+            >
+              <FontAwesomeIcon icon={faFileExport} />
+            </MaterialUI.Button>
+          </MaterialUI.Tooltip>
+        ) : (
+          <span></span>
+        )}
       </div>
 
       {showChart ? (
@@ -77,7 +81,7 @@ const MainPanel = props => {
                   type: "logarithmic",
                   position: "left",
                   ticks: {
-                    min: increment || 0, //minimum tick
+                    min: 1, //minimum tick
                     max: maxDistance || 10000, //maximum tick
                     callback: function(value, index, values) {
                       return Number(value.toString());
@@ -86,9 +90,11 @@ const MainPanel = props => {
                   afterBuildTicks: function(chartObj) {
                     chartObj.ticks = [];
                     var curInc = increment;
+                    var base = Math.ceil(Math.exp(Math.log(maxDistance)/10));
+                    base = base > 1 ? base : 2;
                     while (curInc < maxDistance) {
                       chartObj.ticks.push(curInc);
-                      curInc *= 10;
+                      curInc *= base;
                     }
                     chartObj.ticks.push(maxDistance);
                   }

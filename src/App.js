@@ -5,7 +5,7 @@ import LeftControls from "./LeftControls";
 import clsx from "clsx";
 import MainPanel from "./MainPanel/MainPanel";
 import { post } from "./post";
-import { exportData } from './export';
+import { exportData } from "./export";
 const useStyles = MaterialUI.makeStyles(theme => {
   return {
     app: {
@@ -67,8 +67,7 @@ const App = props => {
     increment: 0
   });
   const onExportClick = () => {
-    // TODO: Add export data fetch here
-    if (!dataFetched || !lastReq) return;
+    if (!lastReq) return;
     exportData(lastReq).then(data => console.log(data));
   };
 
@@ -128,6 +127,7 @@ const App = props => {
               req.isotop = fireReq.isotop.value;
               req.nuclide = fireReq.nuclide.value;
               req.lungClass = fireReq.lungClass.value;
+              req.unitSystem = fireReq.unitSystem;
               req.type = "fire";
 
               post({ body: req, type: "fire" }).then(data => {
@@ -141,20 +141,31 @@ const App = props => {
                 setDataFetched(true);
               });
             }}
+
+
             onPlumeShowGraphClick={plumeReq => {
               // * These are required exactly as they are. Otherwise it will give a CORS error.
               // * It's a confusing warning that needs to be fixed in api
+              setBoundary({
+                maxDistance: parseFloat(plumeReq.maxDistance.value),
+                increment: parseFloat(plumeReq.distanceIncrement.value)
+              });
               let req = {};
               req.sourceAmount = plumeReq.sourceAmount.value;
+              req.releaseHeight = plumeReq.releaseHeight.value;
               req.windSpeed = plumeReq.windSpeed.value;
               req.receptorHeight = plumeReq.receptorHeight.value;
-              req.releaseHeight = plumeReq.releaseHeight.value;
+
+              req.maxDistance = parseFloat(plumeReq.maxDistance.value);
+              req.distanceIncrement = parseFloat(
+                plumeReq.distanceIncrement.value
+              );
+
               req.stability = plumeReq.stability.value;
-              req.maxDistance = 1000;
-              req.distanceIncrement = 1;
-              req.isotop = "H-3";
-              req.nuclide = "H";
-              req.lungClass = "F";
+              req.isotop = plumeReq.isotop.value;
+              req.nuclide = plumeReq.nuclide.value;
+              req.lungClass = plumeReq.lungClass.value;
+              req.unitSystem = plumeReq.unitSystem;
               req.type = "plume";
 
               post({ body: req, type: "plume" }).then(data => {
@@ -164,10 +175,17 @@ const App = props => {
                   previousPlumeData: data,
                   chartData: createData(data)
                 });
-                setLastReq(req);
+                setLastReq({ body: req, type: "plume" });
                 setDataFetched(true);
               });
             }}
+
+
+
+
+
+
+
           />
         </div>
         <div className={classes.mainPanel}>

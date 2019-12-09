@@ -11,7 +11,8 @@ const InputField = props => {
     unitTogglelable,
     type,
     errorMessage,
-    inputValidation
+    inputValidation,
+    minVal
   } = props;
   const [error, setError] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -21,12 +22,17 @@ const InputField = props => {
   };
 
   React.useEffect(() => {
-    if (inputValidation(value)) {
+    let valueNum = parseFloat(value);
+    if (isNaN(valueNum)) {
+      valueNum = minVal | 0;
+    }
+    if (inputValidation(valueNum)) {
       setError(false);
     } else {
       setError(true);
     }
-  }, [value]);
+    // eslint-disable-next-line
+  }, []);
 
   React.useEffect(() => {
     onChange({ error, value });
