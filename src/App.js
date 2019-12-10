@@ -56,6 +56,8 @@ const App = props => {
   const [state, setState] = React.useState({
     previousFireData: null,
     previousPlumeData: null,
+    previousFireBoundaries: null,
+    previousPlumeBoundaries: null,
     chartData: {},
     tabIndex: "fire"
   });
@@ -81,23 +83,29 @@ const App = props => {
                 case 0: {
                   // fire graph tab
                   setState({ ...state, chartData: {}, tabIndex: "fire" });
-                  if (state.previousFireData)
+                  if (state.previousFireData) {
+                    console.log('fire', state.previousFireBoundaries);
                     setState({
                       ...state,
                       chartData: createData(state.previousFireData),
                       tabIndex: "fire"
                     });
+                    setBoundary(state.previousFireBoundaries);
+                  }
                   return;
                 }
                 case 1: {
                   // plume graph tab
                   setState({ ...state, chartData: {}, tabIndex: "plume" });
-                  if (state.previousPlumeData)
+                  if (state.previousPlumeData) {
+                    console.log('plume', state.previousPlumeBoundaries);
                     setState({
                       ...state,
                       chartData: createData(state.previousPlumeData),
                       tabIndex: "plume"
                     });
+                    setBoundary(state.previousPlumeBoundaries);
+                  }
                   return;
                 }
                 default: {
@@ -135,6 +143,10 @@ const App = props => {
                 setState({
                   ...state,
                   previousFireData: data,
+                  previousFireBoundaries: {
+                    maxDistance: parseFloat(fireReq.maxDistance.value),
+                    increment: parseFloat(fireReq.distanceIncrement.value)
+                  },
                   chartData: createData(data)
                 });
                 setLastReq({ body: req, type: "fire" });
@@ -173,6 +185,10 @@ const App = props => {
                 setState({
                   ...state,
                   previousPlumeData: data,
+                  previousPlumeBoundaries: {
+                    maxDistance: parseFloat(plumeReq.maxDistance.value),
+                    increment: parseFloat(plumeReq.distanceIncrement.value)
+                  },
                   chartData: createData(data)
                 });
                 setLastReq({ body: req, type: "plume" });
