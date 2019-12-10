@@ -46,7 +46,7 @@ const MainPanel = props => {
     <div className={classes.mainPanel}>
       <div className={classes.switch}>
       <MaterialUI.FormControlLabel
-        label={showChart ? 'Switch to Chart' : 'Switch to Graph'}
+        label={showChart ? 'Switch to Table' : 'Switch to Graph'}
         control={<MaterialUI.Switch
           onChange={e => {
             setShowChart(e.target.checked);
