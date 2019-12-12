@@ -100,7 +100,7 @@ const GeneralFire = props => {
         }`}
         unit={fieldValues.unitSystem === "metric" ? "m/s" : "mph"}
         inputValidation={value => {
-          if (fieldValues.unitSystem === "m/s") {
+          if (fieldValues.unitSystem === "metric") {
             return 0 <= value && value <= 50;
           } else {
             return 0 <= value && value <= 111;
